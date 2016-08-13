@@ -47,6 +47,9 @@ highlight:
 # Category & Tag
 default_category: uncategorized
 category_map:
+        内核: linux-kernel
+        网络: network
+        工具: tools
 tag_map:
 
 # Date / Time format

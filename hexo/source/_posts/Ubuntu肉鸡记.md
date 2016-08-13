@@ -1,6 +1,7 @@
 ---
 title: Ubuntu肉鸡记
 date: 2016-08-13 15:17:46
+categories: 网络
 tags:
 ---
 
