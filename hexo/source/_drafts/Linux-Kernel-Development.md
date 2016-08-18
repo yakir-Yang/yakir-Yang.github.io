@@ -68,3 +68,9 @@ categories: 内核
  > 函数 down_interruptible() 试图获取制定的信号量，如果信号量不可用，将把进程设置为 TASK_INTERRUPTIBLE 状态。而函数 down() 则会让进程在 TASK_UNINTERRUPTIBLE 状态下休眠，此状态无法响应其他信号了。所以 **使用 down_interruptible() 比使用 down() 更为普遍（也更正确）**
 
  - **completion** 完成变量：用于一个任务发出信号通知另一个任务发生了特定事件，实现思想和信号量一致。
+
+ - **seqlock** 顺序锁：基于一个序列计数器实现，经典应用例程 jiffies。
+
+ - **preempt** 禁止抢占：```preempt_enable()``` or ```preempt_disable()```
+
+ - **顺序和屏障**：处理多处理器和硬件设备之间的同步问题，确保跨越屏障的读／写不发生重排序，```rmb(), wmb(), mb(), read_barrier_depends()```
