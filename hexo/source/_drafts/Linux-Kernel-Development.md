@@ -4,13 +4,18 @@ tags:
 categories: 内核
 ---
 
+## 调度
+
 * Linux 的进程调度是基于 "处理器比重" 策略，具体实现通过 vruntime 成员。所有进程以各自的 vruntime 作为 Key，链接成为一个 RBTree。调度核心通过查找最小的 vruntime 对应的进程，作为下一刻需要运行的进程。**vruntime 作为进程调度的核心，那它的计算方法是什么？**
 
 * 应用程序进行系统调用(system call)时，通过 **软中断(soft irq)** 陷入内核态，将 **系统调用号** 以及 **参数指针** 通过 CPU **通用寄存器** 传入(exp. eax, ebx...)，由内核代表应用程序在 *内核空间* 执行系统调用。
 
 * Linux 内核常用的 **内建数据结构** ： 链表 list， 队列 kfifo， 映射 idr， 二叉树 rbtree
 
-* **Linux 中断实现机制怎样？** 中断发生时，通过 **中断向量表** 跳转到预定义入口点。初始入口点将 **中断号保存在栈中**，然后跳转调用 ```unsigned int do_IRQ(struct pt_regs regs)``` 进行处理。因为 C 的调用惯例是要把函数参数放在 **栈的顶部**，因此可以从 **pt_regs 结构中提取出中断号** 进行进一步处理。
+-------
+
+## 中断
+* **Linux 中断实现机制怎样？** 中断发生时，通过 **中断向量表** 跳转到预定义入口点。初始入口点将 **中断号保存在栈中**，然后跳转调用 `unsigned int do_IRQ(struct pt_regs regs)` 进行处理。因为 C 的调用惯例是要把函数参数放在 **栈的顶部**，因此可以从 **pt_regs 结构中提取出中断号** 进行进一步处理。
 
 * **什么是中断上下文？**当执行一个中断处理程序时，内核即处于中断上下文 (interrupt context) 中。
 
@@ -22,8 +27,11 @@ categories: 内核
 
 * ** softirq 中为什么不能休眠？ ** 难道是 softirq 是处于中断上下文 interrupt context？
 
-* **tasklet 和 工作队列 的主要区别？** tasklet 是 **基于 softirq 实现**，调用者将目标 tasklet 注册到 ```__this_cpu```（*更好利用处理器的高速缓存*）的 tasklet list 中，然后触发软中断等待执行，回调处理中 **不允许休眠**； 工作队列 是 **基于 内核线程kthread** 和 **等待队列 waitqueue** 实现，硬中断函数中唤醒对应内核线程，在线程函数中检查并遍历执行 worklist，回调处理中 **允许调度及休眠** 。
+* **tasklet 和 工作队列 的主要区别？** tasklet 是 **基于 softirq 实现**，调用者将目标 tasklet 注册到 `__this_cpu`（*更好利用处理器的高速缓存*）的 tasklet list 中，然后触发软中断等待执行，回调处理中 **不允许休眠**； 工作队列 是 **基于 内核线程kthread** 和 **等待队列 waitqueue** 实现，硬中断函数中唤醒对应内核线程，在线程函数中检查并遍历执行 worklist，回调处理中 **允许调度及休眠** 。
 
+-------
+
+## 同步
 * **为什么全局变量自加操作，在多线程中是不安全的？** 请看以下例子：
 
 |  线程 1       | 线程 2        |     | 线程 1       | 线程 2         |
@@ -71,6 +79,35 @@ categories: 内核
 
  - **seqlock** 顺序锁：基于一个序列计数器实现，经典应用例程 jiffies。
 
- - **preempt** 禁止抢占：```preempt_enable()``` or ```preempt_disable()```
+ - **preempt** 禁止抢占：`preempt_enable()` or `preempt_disable()`
 
- - **顺序和屏障**：处理多处理器和硬件设备之间的同步问题，确保跨越屏障的读／写不发生重排序，```rmb(), wmb(), mb(), read_barrier_depends()```
+ - **顺序和屏障**：处理多处理器和硬件设备之间的同步问题，确保跨越屏障的读／写不发生重排序，`rmb(), wmb(), mb(), read_barrier_depends()`
+
+------
+
+# 定时器
+* **内核中的 HZ 代表什么？** 赫兹 HZ 代表每秒钟 pre-second 时钟中断发生的次数，也代表定时器精度，是通过静态预处理定义的。
+
+* **内核中的 jeffies 怎么来的？** 全局变量 jeffies 用于记录自系统启动以来产生的节拍的总数 `unsigned long volatile jeffies`
+  > 由于 jeffies 在 32-bit 机器上，字节数为 4 byte，存在 **溢出后回绕** 为 0 的问题。如果用户采用直接比较 jeffies 来判断时序，则有可能导致逻辑错误。因此内核提供了以下四个宏帮助比较节拍计数，正确处理节拍计数回绕问题：
+  > ``` C
+  #define time_after(unknow, know)      ((long)(know) - (long)(unknow) < 0)
+  #define time_before(unknow, know)     ((long)(unknow) - (long)(know) < 0)
+  #define time_after_eq(unknow, know)   ((long)(unknow) - (long)(know) >= 0)
+  #define time_before_eq(unknow, know)  ((long)(know) - (long)(unknow) >= 0)
+  ```
+
+* **内核中的 xtime 全局变量用途？** xtime 是用来代表 wall time (实际时间)，RTC 模块主要在启动时协助初始化 xtime 变量。(xtime 全局变量的同步方式和 jeffies 一样，采用 seqlock 顺序锁同步)
+  > 用户空间可以通过 `gettimeofday()` 系统调用来获取 wall time，内核也可以通过 `do_gettimeofday()` 来获取。
+  > ```C
+  struct timespec {
+    _kernel_time_t tv_sec; /* second */
+    long tv_nsec; /* ns */
+  } xtime;
+  ```
+
+* **可用的延时执行机制？说明简单实现**
+  - **jeffies** 忙等待：通过对 jeffies 进行判断，加上一定的空闲调度 `cond_resched()`；
+  - **udelay** 短延时：依靠执行数次循环达到延时效果，循环次数是根据 BogoMIPS 参数进行比例换算；
+  - **schedule_timeout**：结合 timer 和 schedule 实现；
+  > 如果任务既要等待一个特定事件到来，又在等待一个特定时间到期，这时可以简单使用 `schedule_timeout()` 代替 `schedule()` + `wait_queue`；
