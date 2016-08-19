@@ -75,3 +75,6 @@ deploy:
   type: git
   repo: git@github.com:yakir-Yang/yakir-Yang.github.io.git
   branch: master
+
+# Duoshuo
+duoshuo_shortname: kyang
