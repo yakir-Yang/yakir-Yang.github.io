@@ -17,7 +17,8 @@ categories: 工具
 $ mogrify -resize 50% rose.jpg
 ```
 
-![rose](https://github.com/yakir-Yang/yakir-Yang.github.io/blob/hexo/picture/tools/mogrify/rose.png) ==> ![After 50%](https://github.com/yakir-Yang/yakir-Yang.github.io/blob/hexo/picture/tools/mogrify/50%25-rose.png)
+![rose](/images/tools/mogrify/rose.png)
+![After 50%](/images/tools/mogrify/缩放后的rose.png)
 
 
 - 随意改变图片大小
