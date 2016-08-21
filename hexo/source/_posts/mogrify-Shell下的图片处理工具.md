@@ -20,6 +20,7 @@ $ mogrify -resize 50% rose.jpg
 ![rose](/images/tools/mogrify/rose.png)
 ![After 50%](/images/tools/mogrify/缩放后的rose.png)
 
+<!-- more -->
 
 - 随意改变图片大小
 
@@ -36,7 +37,7 @@ rose.jpg:     JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x
 rose.png:     PNG image data, 70 x 46, 8-bit/color RGB, non-interlaced
 ```
 
-如果你想看更多的例子，["Shell 下的图形处理"][1] 可以帮到你。
+如果你想看更多的例子，有篇英文文章 [Graphics from the command line 命令行下的图形处理][1] 应该可以帮到你。
 
 -------------------
 
