@@ -78,3 +78,6 @@ deploy:
 
 # Duoshuo
 duoshuo_shortname: kyang
+
+# TOC
+toc: false
