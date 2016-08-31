@@ -4,6 +4,7 @@ date: 2016-08-21 16:34:41
 tags:
 categories: 工具
 ---
+<font color="red"> **ATTENTION 转载请注明出处：** https://yakir-yang.github.io/ </font>
 
 **mogrify** 是一个图形处理应用程序，Ubuntu 系统已经集成了此工具。它支持对图片的 `resize`, `blur`, `crop`, `despeckle`, `dither`, `draw on`, `flip`, `re-sample` 等操作。
 
