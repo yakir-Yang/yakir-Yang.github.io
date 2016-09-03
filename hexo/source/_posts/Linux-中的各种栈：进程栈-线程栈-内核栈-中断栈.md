@@ -5,7 +5,7 @@ date: 2016-08-26 23:24:35
 tags:
 toc: true
 ---
-<font color="red"> **ATTENTION 转载请注明出处：** https://yakir-yang.github.io/ </font>
+<font color="red"> **转载请注明出处：** https://yakir-yang.github.io/ </font>
 
 ## 栈是什么？栈有什么作用？
 
