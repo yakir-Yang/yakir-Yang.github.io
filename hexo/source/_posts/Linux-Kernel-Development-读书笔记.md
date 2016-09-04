@@ -1,8 +1,12 @@
 ---
-title: Linux Kernel Development
+title: Linux Kernel Development 读书笔记
+date: 2016-08-20 09:41:59
 tags:
+toc: true
 categories: 内核
 ---
+
+<font color="red"> **转载请注明出处：** https://yakir-yang.github.io/ </font>
 
 ## 调度
 
@@ -86,7 +90,7 @@ categories: 内核
 
 ------
 
-# 定时器
+## 定时器
 * **内核中的 HZ 代表什么？** 赫兹 HZ 代表每秒钟 pre-second 时钟中断发生的次数，也代表定时器精度，是通过静态预处理定义的。
 
 * **内核中的 jeffies 怎么来的？** 全局变量 jeffies 用于记录自系统启动以来产生的节拍的总数 `unsigned long volatile jeffies`
@@ -115,7 +119,7 @@ categories: 内核
 
 -----
 
-# 内存管理与地址空间
+## 内存管理与地址空间
 
 * **基本术语概念：页、区**
   - **Page 页**：内存管理单元 (MMU，管理内存并把虚拟地址转换为物理地址的 **硬件**) 通常以页为单位进行处理，尽管处理器的 **最小可寻址单位** 通常是字（Or 字节）。大多数 32 位体系结构支持 4KB 的页，而 64 位体系结构一般会支持 8KB 的页
@@ -141,7 +145,7 @@ categories: 内核
 
 
 * **Slab 对象管理模型**：基于 **动态增长** 的高速缓存 cachep，将其分成两级 Slab 与 对象 进行管理。高速缓存以页为单位，划分成为多个 Slab（一般 Slab 暂用一页）。然后 Slab 再以对象大小为单位，管理多个对象的申请与释放。
-![高速缓存、Slab 及对象之间的关系图](https://github.com/yakir-Yang/yakir-Yang.github.io/blob/hexo/picture/kernel/1-%E9%AB%98%E9%80%9F%E7%BC%93%E5%AD%98-Slab-%E5%8F%8A%E5%AF%B9%E8%B1%A1%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB.png)
+![高速缓存、Slab 及对象之间的关系图](/images/kernel/linux-kernel-development-note/高速缓存-Slab-及对象之间的关系.png)
 
 * **如何理解：进程栈、内核栈、中断栈三者的关系？以及分别有何种用途？** 内核栈和中断栈分别独立占用一个页，其空间全部来至于进程栈。
 
@@ -156,7 +160,7 @@ categories: 内核
 
 * **页表**：虽然应用程序操作的对象是映射到物理内存之上的虚拟内存，但是处理器直接操作的确实物理内存。所以当应用程序访问一个虚拟地址时，首先必须将虚拟地址转化为物理地址，然胡处理器才能解析地址访问的请求，而地址转化的过程就是页表查询的过程。
   > 地址转化需要将虚拟地址分段，使每段虚拟地址都作为一个索引指向页表，而页表项则指向下一级别的页表或者指向最终的物理页面。Linux 采用三级页表完成地址转化，三级页表名称分别为：`PGD`, `PMD`, `PTE`。
-  ![虚拟地址通过页表找到物理地址的过程.png](https://github.com/yakir-Yang/yakir-Yang.github.io/blob/hexo/picture/kernel/2-%E8%99%9A%E6%8B%9F-%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%9F%A5%E8%AF%A2.png)
-  ![页表空间大小解析.png](https://github.com/yakir-Yang/yakir-Yang.github.io/blob/hexo/picture/kernel/3-%E9%A1%B5%E8%A1%A8%E7%A9%BA%E9%97%B4%E5%A4%A7%E5%B0%8F%E8%A7%A3%E6%9E%90.png)
+  ![虚拟地址通过页表找到物理地址的过程.png](/images/kernel/linux-kernel-development-note/虚拟-物理地址查询.png)
+  ![页表空间大小解析.png](/images/kernel/linux-kernel-development-note/页表空间大小解析.png)
 
  * **TLB 翻译后缓冲器**：由于几乎每次对虚拟内存中的页面访问都必须先解析它，从而得到物理内存中的对应地址，所以页表操作的性能非常关键。TLB 是一个将虚拟地址映射到物理地址的硬件缓存，当请求访问一个虚拟地址时，处理器将首先检查 TLB 中是否缓存了改虚拟地址到物理地址的映射，如果缓存命中，就不需要通过页表搜索对应的物理地址了。
