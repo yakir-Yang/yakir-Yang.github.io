@@ -246,7 +246,7 @@ union thread_union {
 
 ![进程内核栈与进程描述符](/images/kernel/stack/进程内核栈与进程描述符.png)
 
-有了上述关联结构后，内核可以先获取到栈顶指针 esp，然后通过 esp 来获取 `thread_info`。这里有一个小技巧，直接将 esp 的地址与上 `~(THREAD_SIZE - 1)` 后即可直接获得 `thread_info` 的地址。因为内核内存管理的最小单元就是页，因此 `thread_union` 首地址一定是 THREAD_SIZE 对齐的。因此只需要对栈指针进行 THREAD_SIZE 对齐，即可获得 `thread_union` 的地址，也就获得了 `thread_union` 的地址。成功获取到 `thread_info` 后，直接取出它的 task 成员就成功得到了 `task_struct`。其实上面这段描述，也就是 **current** 宏的实现方法：
+有了上述关联结构后，内核可以先获取到栈顶指针 esp，然后通过 esp 来获取 `thread_info`。这里有一个小技巧，直接将 esp 的地址与上 `~(THREAD_SIZE - 1)` 后即可直接获得 `thread_info` 的地址。由于 `thread_union` 结构体是从 `thread_info_cache` 的 Slab 缓存池中申请出来的，而 `thread_info_cache` 在 `kmem_cache_create` 创建的时候，保证了地址是 `THREAD_SIZE` 对齐的。因此只需要对栈指针进行 THREAD_SIZE 对齐，即可获得 `thread_union` 的地址，也就获得了 `thread_union` 的地址。成功获取到 `thread_info` 后，直接取出它的 task 成员就成功得到了 `task_struct`。其实上面这段描述，也就是 **current** 宏的实现方法：
 
 ```
 register unsigned long current_stack_pointer asm ("sp");
@@ -287,7 +287,10 @@ X86 上中断栈就是独立于内核栈的；独立的中断栈所在内存空�
      - 此时 A1 的栈指针 esp 如果为初始值 0x7ffc80000000，则线程 A1 一但出现函数调用，必然会破坏父进程 A 已入栈的数据。
      - 如果此时线程 A1 的栈指针和父进程最后更新的值一致，esp 为 0x7ffc8000FF00，那线程 A1 进行一些函数调用后，栈指针 esp 增加到 0x7ffc8000FFFF，然后线程 A1 休眠；调度器再次换成父进程 A 执行，那这个时候父进程的栈指针是应该为 0x7ffc8000FF00 还是 0x7ffc8000FFFF 呢？无论栈指针被设置到哪个值，都会有问题不是吗？
 
-3. 为什么需要单独中断栈？
+3. 进程和线程是否共享一个内核栈？
+   - No，线程和进程创建的时候都调用 `dup_task_struct` 来创建 task 相关结构体，而内核栈也是在此函数中 `alloc_thread_info_node` 出来的。因此虽然线程和进程共享一个地址空间 `mm_struct`，但是并不共享一个内核栈。
+
+4. 为什么需要单独中断栈？
    - 这个问题其实不对，ARM 架构就没有独立的中断栈。
 
 大家还有什么观点，可以在留言下来 :-D
