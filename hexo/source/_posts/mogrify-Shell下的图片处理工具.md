@@ -6,6 +6,8 @@ categories: 工具
 ---
 <font color="red"> **转载请注明出处：** https://yakir-yang.github.io/ </font>
 
+------
+
 **mogrify** 是一个图形处理应用程序，Ubuntu 系统已经集成了此工具。它支持对图片的 `resize`, `blur`, `crop`, `despeckle`, `dither`, `draw on`, `flip`, `re-sample` 等操作。
 
 还有 mogrify 很类似的图形处理工具 [**convert**][convert]，只不过 mogrify 默认是直接在原图上进行修改（除非你使用 `-format` 后缀参数），而 convert 则不是。

@@ -4,6 +4,9 @@ date: 2016-08-19 00:02:52
 tags:
 categories: 内核
 ---
+<font color="red"> **本文转载至：http://blog.csdn.net/lyl0625/article/details/7350045** </font>
+
+------
 
 类型所占字节数和机器字长及编译器有关系，所以，`int`，`long int`，`short int`的宽度都可能随编译器而异。但有几条铁定的原则（**ANSI / ISO** 制订的）：
 
