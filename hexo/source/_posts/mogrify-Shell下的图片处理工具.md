@@ -4,7 +4,7 @@ date: 2016-08-21 16:34:41
 tags:
 categories: 工具
 ---
-<font color="red"> **转载请注明出处：** https://yakir-yang.github.io/ </font>
+<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
 
 ------
 

@@ -4,7 +4,7 @@ date: 2016-09-09 20:21:25
 tags:
 categories: 网络
 ---
-<font color="red"> **转载请注明出处：** https://yakir-yang.github.io/ </font>
+<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
 
 ------
 
