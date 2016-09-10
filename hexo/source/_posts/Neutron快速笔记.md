@@ -13,11 +13,15 @@ categories: 网络
 
 ### Neutron 源码框架
 
-[深入理解Neutron -- OpenStack 网络实现](https://yeasy.gitbooks.io/openstack_understand_neutron/content/concept/)
+[漫谈 Neutron 架构](http://geek.csdn.net/news/detail/51897)
+
+[漫步云中网络，第 2 部分](http://www.ibm.com/developerworks/cn/cloud/library/1311_zhanghua_openstacknetwork2/)
 
 [Neutron 理解 (1): Neutron 所实现的虚拟化网络 How Netruon Virtualizes Network](http://www.cnblogs.com/sammyliu/p/4622563.html)
 
-[漫谈Neutron架构](http://www.openstack.cn/?p=4519)
+[深入理解Neutron -- OpenStack 网络实现](https://yeasy.gitbooks.io/openstack_understand_neutron/content/concept/)
+
+[OpenStack Neutron 源码分析](https://yeasy.gitbooks.io/openstack_code_neutron/content/index.html)
 
 <!-- more -->
 
@@ -27,6 +31,8 @@ categories: 网络
 [Neutron网络入门](https://www.ustack.com/blog/neutron_intro/)
 
 [OpenStack 网络：Neutron 初探](http://www.ibm.com/developerworks/cn/cloud/library/1402_chenhy_openstacknetwork/)
+
+[Networking in too much detail](https://www.rdoproject.org/networking/networking-in-too-much-detail/)
 
 [easyOVS - 开源的 OVS 虚拟交换机管理工具](https://yeasy.gitbooks.io/openstack_understand_neutron/content/tool/easyovs.html)
 
@@ -55,3 +61,15 @@ categories: 网络
 [VLAN 技术详解（一）](http://wushank.blog.51cto.com/3489095/1132127)
 
 [VLAN 技术浅谈](http://www.h3c.com.cn/MiniSite/Technology_Circle/Net_Reptile/The_One/Home/Catalog/200911/655250_97665_0.htm)
+
+[VLAN 交换机三种端口模式 Access，Hybrid，Trunk](http://blog.csdn.net/jesseyoung/article/details/40047749)
+
+[网络地址转换 NAT 原理（易于理解）](http://blog.csdn.net/hzhsan/article/details/45038265)
+
+[GRE 和 VXLAN](http://bingotree.cn/?p=654)
+
+[GRE 与 Vxlan 网络详解](http://www.cnblogs.com/xingyun/p/4620727.html)
+
+[VXLAN Explained – Part 1](http://www.borgcube.com/blog/2016/03/12/vxlan-explained-part-1/)
+
+[两个局域网（办公网-IDC）安全互通方案2：by GRE](http://h2ofly.blog.51cto.com/6834926/1544860)
