@@ -11,6 +11,18 @@ categories: 网络
 优质博文
 -------
 
+### Neutron 深入源码
+
+[<font color="blue">**待看**</font> OpenStack Neutron 源码分析](https://yeasy.gitbooks.io/openstack_code_neutron/content/index.html)
+
+[深入探秘 Neutron API](http://www.sdnlab.com/15223.html)
+
+[OpenStack 之 Neutron 源码分析 neutron-server 初始化](http://blog.csdn.net/qiqishuang/article/details/52055909)
+
+[Openstack 的公共库 (oslo) 的使用](http://blog.csdn.net/canxinghen/article/details/51711457)
+
+---------
+
 ### Neutron 源码框架
 
 [漫谈 Neutron 架构](http://geek.csdn.net/news/detail/51897)
@@ -21,7 +33,7 @@ categories: 网络
 
 [深入理解Neutron -- OpenStack 网络实现](https://yeasy.gitbooks.io/openstack_understand_neutron/content/concept/)
 
-[OpenStack Neutron 源码分析](https://yeasy.gitbooks.io/openstack_code_neutron/content/index.html)
+[Openstack Admin Guide - Neutron](http://docs.openstack.org/admin-guide/networking.html)
 
 <!-- more -->
 
@@ -32,7 +44,7 @@ categories: 网络
 
 [OpenStack 网络：Neutron 初探](http://www.ibm.com/developerworks/cn/cloud/library/1402_chenhy_openstacknetwork/)
 
-[Networking in too much detail](https://www.rdoproject.org/networking/networking-in-too-much-detail/)
+[<font color="blue">**待看**</font> Networking in too much detail](https://www.rdoproject.org/networking/networking-in-too-much-detail/)
 
 [easyOVS - 开源的 OVS 虚拟交换机管理工具](https://yeasy.gitbooks.io/openstack_understand_neutron/content/tool/easyovs.html)
 
@@ -53,10 +65,12 @@ categories: 网络
 
 [Linux 上的基础网络设备详解](https://www.ibm.com/developerworks/cn/linux/1310_xiawc_networkdevice/#icomments)
 
+[<font color="blue">**待看**</font> Network Virtualization For Dummies](http://campaign.vmware.com//imgs/GlobalCampaigns/NSXAutomation/assets/Network%20Virtualization%20For%20Dummies-2.pdf)
+
 ------
 
 ### 网络基本概念
-[集线器、交换机、路由器 概念认识](https://yakir-yang.github.io/2016/09/08/%E9%9B%86%E7%BA%BF%E5%99%A8%EF%BC%8C%E4%BA%A4%E6%8D%A2%E6%9C%BA%EF%BC%8C%E8%B7%AF%E7%94%B1%E5%99%A8%E6%A6%82%E5%BF%B5%E8%AE%A4%E8%AF%86/)
+[集线器cd 、交换机、路由器 概念认识](https://yakir-yang.github.io/2016/09/08/%E9%9B%86%E7%BA%BF%E5%99%A8%EF%BC%8C%E4%BA%A4%E6%8D%A2%E6%9C%BA%EF%BC%8C%E8%B7%AF%E7%94%B1%E5%99%A8%E6%A6%82%E5%BF%B5%E8%AE%A4%E8%AF%86/)
 
 [VLAN 技术详解（一）](http://wushank.blog.51cto.com/3489095/1132127)
 
@@ -73,3 +87,12 @@ categories: 网络
 [VXLAN Explained – Part 1](http://www.borgcube.com/blog/2016/03/12/vxlan-explained-part-1/)
 
 [两个局域网（办公网-IDC）安全互通方案2：by GRE](http://h2ofly.blog.51cto.com/6834926/1544860)
+
+----------
+
+### Python 相关技术
+[捉摸 Python 的 WSGI](http://smartzxy.iteye.com/blog/734050)
+
+[Neutron WSGI/HTTP API layer](http://docs.openstack.org/developer/neutron/devref/api_layer.html)
+
+[Python Pep 0333 - Web Server Gateway Interface (WSGI)](http://legacy.python.org/dev/peps/pep-0333/)
