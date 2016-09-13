@@ -19,11 +19,13 @@ categories: 网络
 
 [OpenStack 之 Neutron 源码分析 neutron-server 初始化](http://blog.csdn.net/qiqishuang/article/details/52055909)
 
+[Neutron WSGI/HTTP API layer](http://docs.openstack.org/developer/neutron/devref/api_layer.html)
+
 [Openstack 的公共库 (oslo) 的使用](http://blog.csdn.net/canxinghen/article/details/51711457)
 
 ---------
 
-### Neutron 源码框架
+### Neutron 拓扑框架
 
 [漫谈 Neutron 架构](http://geek.csdn.net/news/detail/51897)
 
@@ -93,6 +95,10 @@ categories: 网络
 ### Python 相关技术
 [捉摸 Python 的 WSGI](http://smartzxy.iteye.com/blog/734050)
 
-[Neutron WSGI/HTTP API layer](http://docs.openstack.org/developer/neutron/devref/api_layer.html)
-
 [Python Pep 0333 - Web Server Gateway Interface (WSGI)](http://legacy.python.org/dev/peps/pep-0333/)
+
+[Openstack Paste Deploy介绍](http://www.choudan.net/2013/07/28/OpenStack-paste-deploy%E4%BB%8B%E7%BB%8D.html)
+
+[WGSI Application 简单示例](https://github.com/yakir-Yang/misc-code/blob/master/wsgi_app.py)
+
+[Paste Deploy 简单示例](https://github.com/yakir-Yang/misc-code/blob/master/pastedeploylab.py)
