@@ -90,7 +90,7 @@ categories: 网络
 
 [两个局域网（办公网-IDC）安全互通方案2：by GRE](http://h2ofly.blog.51cto.com/6834926/1544860)
 
-----------
+------
 
 ### Python 相关技术
 [捉摸 Python 的 WSGI](http://smartzxy.iteye.com/blog/734050)
@@ -99,6 +99,14 @@ categories: 网络
 
 [Openstack Paste Deploy介绍](http://www.choudan.net/2013/07/28/OpenStack-paste-deploy%E4%BB%8B%E7%BB%8D.html)
 
+[<font color="blue">**待看**</font> Paste Deployment](http://pythonpaste.org/deploy/#applications)
+
 [WGSI Application 简单示例](https://github.com/yakir-Yang/misc-code/blob/master/wsgi_app.py)
 
 [Paste Deploy 简单示例](https://github.com/yakir-Yang/misc-code/blob/master/pastedeploylab.py)
+
+[Python 装饰器学习 (九步入门)](http://www.cnblogs.com/rhcad/archive/2011/12/21/2295507.html)
+
+[Python Eventlet - 王智愚 博客园](http://www.cnblogs.com/Security-Darren/p/4170031.html)
+
+[Openstack Nova 基础知识 - Eventlet](http://blog.csdn.net/hackerain/article/details/7836993)
