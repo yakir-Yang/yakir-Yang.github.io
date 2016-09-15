@@ -1,5 +1,5 @@
 ---
-title: Neutron 快速笔记
+title: Neutron 快速笔记 - 框架概念
 date: 2016-09-09 20:21:25
 tags:
 categories: 网络
@@ -10,20 +10,6 @@ categories: 网络
 
 优质博文
 -------
-
-### Neutron 深入源码
-
-[<font color="blue">**待看**</font> OpenStack Neutron 源码分析](https://yeasy.gitbooks.io/openstack_code_neutron/content/index.html)
-
-[深入探秘 Neutron API](http://www.sdnlab.com/15223.html)
-
-[OpenStack 之 Neutron 源码分析 neutron-server 初始化](http://blog.csdn.net/qiqishuang/article/details/52055909)
-
-[Neutron WSGI/HTTP API layer](http://docs.openstack.org/developer/neutron/devref/api_layer.html)
-
-[Openstack 的公共库 (oslo) 的使用](http://blog.csdn.net/canxinghen/article/details/51711457)
-
----------
 
 ### Neutron 拓扑框架
 
@@ -72,7 +58,7 @@ categories: 网络
 ------
 
 ### 网络基本概念
-[集线器cd 、交换机、路由器 概念认识](https://yakir-yang.github.io/2016/09/08/%E9%9B%86%E7%BA%BF%E5%99%A8%EF%BC%8C%E4%BA%A4%E6%8D%A2%E6%9C%BA%EF%BC%8C%E8%B7%AF%E7%94%B1%E5%99%A8%E6%A6%82%E5%BF%B5%E8%AE%A4%E8%AF%86/)
+[集线器 、交换机、路由器 概念认识](http://kyang.cc/2016/09/08/%E9%9B%86%E7%BA%BF%E5%99%A8%E3%80%81%E4%BA%A4%E6%8D%A2%E6%9C%BA%E3%80%81%E8%B7%AF%E7%94%B1%E5%99%A8%E6%A6%82%E5%BF%B5%E8%AE%A4%E8%AF%86/)
 
 [VLAN 技术详解（一）](http://wushank.blog.51cto.com/3489095/1132127)
 
@@ -89,24 +75,3 @@ categories: 网络
 [VXLAN Explained – Part 1](http://www.borgcube.com/blog/2016/03/12/vxlan-explained-part-1/)
 
 [两个局域网（办公网-IDC）安全互通方案2：by GRE](http://h2ofly.blog.51cto.com/6834926/1544860)
-
-------
-
-### Python 相关技术
-[捉摸 Python 的 WSGI](http://smartzxy.iteye.com/blog/734050)
-
-[Python Pep 0333 - Web Server Gateway Interface (WSGI)](http://legacy.python.org/dev/peps/pep-0333/)
-
-[Openstack Paste Deploy介绍](http://www.choudan.net/2013/07/28/OpenStack-paste-deploy%E4%BB%8B%E7%BB%8D.html)
-
-[<font color="blue">**待看**</font> Paste Deployment](http://pythonpaste.org/deploy/#applications)
-
-[WGSI Application 简单示例](https://github.com/yakir-Yang/misc-code/blob/master/wsgi_app.py)
-
-[Paste Deploy 简单示例](https://github.com/yakir-Yang/misc-code/blob/master/pastedeploylab.py)
-
-[Python 装饰器学习 (九步入门)](http://www.cnblogs.com/rhcad/archive/2011/12/21/2295507.html)
-
-[Python Eventlet - 王智愚 博客园](http://www.cnblogs.com/Security-Darren/p/4170031.html)
-
-[Openstack Nova 基础知识 - Eventlet](http://blog.csdn.net/hackerain/article/details/7836993)
