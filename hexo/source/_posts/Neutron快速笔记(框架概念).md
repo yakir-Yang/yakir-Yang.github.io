@@ -34,6 +34,14 @@ categories: 网络
 
 [<font color="blue">**待看**</font> Networking in too much detail](https://www.rdoproject.org/networking/networking-in-too-much-detail/)
 
+[Openstack命令行工具 - OpenStack最终用户文档（简体中文版）](https://colinleefish.gitbooks.io/openstack-end-user-guide-simplified-chinese/content/openstack_command_line_clients/index.html)
+
+[如何借助OpenStack命令行工具管理虚拟机](http://xmodulo.com/manage-vms-openstack-command-line-tools.html)
+
+[如何通过OpenStack命令行管理VMs](https://my.oschina.net/yuyanghuoming/blog/224355)
+
+[玩转OpenStack网络Neutron(1)--热身](http://yanheven.github.io/openstack-neutron-01)
+
 [easyOVS - 开源的 OVS 虚拟交换机管理工具](https://yeasy.gitbooks.io/openstack_understand_neutron/content/tool/easyovs.html)
 
 [从一个OpenStack的失败案例看Ironic和Neutron组件的现状](http://www.infoq.com/cn/news/2015/01/ironic-neutron-packet)
