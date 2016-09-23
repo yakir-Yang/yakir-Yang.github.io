@@ -20,6 +20,8 @@ categories: 网络
 
 [Neutron 的软件实现](http://www.sdnlab.com/16403.html)
 
+[Neutron 中的 Plugin 和 Extension 介绍及加载机制](http://bingotree.cn/?p=660#comment-4761)
+
 [<font color="blue">**待看**</font> OpenStack Neutron 源码分析](https://yeasy.gitbooks.io/openstack_code_neutron/content/index.html)
 
 [深入探秘 Neutron API](http://www.sdnlab.com/15223.html)
