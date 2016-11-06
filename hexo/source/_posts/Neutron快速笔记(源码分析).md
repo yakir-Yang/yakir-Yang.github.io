@@ -16,11 +16,15 @@ categories: 网络
 
 [JUNO NEUTRON ML2实现初次跟踪](http://bingotree.cn/?p=665)
 
+[OpenStack Neutron ML2 Deep Dive](http://www.ibm.com/developerworks/cn/cloud/library/cl-cn-openstackneutronml2/index.html)
+
 [JUNO Neutron 中的 Plugin 和 Extension 介绍及加载机制](http://bingotree.cn/?p=660#comment-4761)
 
 [Neutron 的软件实现](http://www.sdnlab.com/16403.html)
 
-[Neutron 中的 Plugin 和 Extension 介绍及加载机制](http://bingotree.cn/?p=660#comment-4761)
+[Openstack RPC 通信原理](https://www.ibm.com/developerworks/cn/cloud/library/1403_renmm_opestackrpc/)
+
+[OpenStack之AMQP原理介绍(Rabbit MQ)](http://blog.csdn.net/crazystone86/article/details/14163885)
 
 [<font color="blue">**待看**</font> OpenStack Neutron 源码分析](https://yeasy.gitbooks.io/openstack_code_neutron/content/index.html)
 
