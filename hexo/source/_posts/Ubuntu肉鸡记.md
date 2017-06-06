@@ -4,10 +4,6 @@ date: 2016-08-13 15:17:46
 categories: 网络
 tags:
 ---
-<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
-
----------
-
 
 今天来和伙伴说说我这两天，亲历的一次网络安全问题。我之前对基础网络方面的知识确实没多少了解，并且正好在假期没什么事情，于是想着借着这次机会好好玩把。虽然已经抓到了木马程序，但是还没理解黑客是怎么黑进来的，估计主机里面还有黑客留的后门，但是中间的调试过程比较有趣。
 <br>
@@ -252,3 +248,6 @@ sync
 [CentOS下DDoS攻击防御和分析]:http://www.centoscn.com/CentosSecurity/CentosSafe/2014/0414/2793.html
 [Analyzing attacks]: http://help.fortinet.com/fddos/4-1-5/index.html#page/FortiDDoS_Handbook/analyzing_attacks.html
 [syn_flood_wiki]: https://zh.wikipedia.org/zh/SYN_flood
+
+<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
+<br>

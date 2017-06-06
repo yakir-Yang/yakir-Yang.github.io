@@ -4,10 +4,6 @@ date: 2016-12-03 09:30:17
 tags:
 categories: 网络
 ---
-<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
-
----------
-
 ## Openstack 概念
 
 我刚听说要去做 openstack 开发的时候，蛮激动的啊。虽然我不知道 openstack 是什么东西，但是我知道这个东西和云计算有关。云计算这东西，听着就高大上，各大互联网公司都有投人进去搞，所以大方向上是必须肯定的。于是我按捺不住了，想在自己的主机上部署 openstack，来体验下这个是什么东西。经过一顿折腾之后，终于在虚拟机里面用 devstack 把 openstack 给部署出来了（部署过程中，最坑的就是国内的防火墙）。
@@ -130,3 +126,6 @@ Neutron 里面有两个框架比较有趣， ML2 框架和 Extension Plugin框�
 |    OpenvSwitch     |   DataPlan support for Virtual Networking Function
 |                    |
 ```
+
+<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
+<br>

@@ -4,9 +4,6 @@ date: 2017-06-05 23:25:26
 tags:
 categories: 网络
 ---
-<font color="red"> **本文转载至：https://www.sdxcentral.com/articles/news/att-exec-says-containers-are-key-to-network-architecture/2017/05/** </font>
-
------
 
 AT&T将容器视为其网络架构计划的“真正重大且重要的组成部分”，电信行业巨头AT&T实验室总裁兼首席技术官Andre Fuetsch表示，该运营商正在尝试将容器引入到业务中去。
 
@@ -29,3 +26,6 @@ CNCF近期将开源的容器网络接口（CNI）程序添加为托管项目，C
 根据451 Research的数据，容器化趋势将从去年的7.62亿美元增长到2020年的近27亿美元。
 
 451研究所的分析师格Greg Zwakman说：“我们从容器市场的研究中发现，供应商基于容器的广度和多样性的合作，将更好地支持其产品中的容器，容器软件增长的速度以及市场成熟的速度都在不断增长。”
+
+<font color="red"> **本文转载至：https://www.sdxcentral.com/articles/news/att-exec-says-containers-are-key-to-network-architecture/2017/05/** </font>
+<br>

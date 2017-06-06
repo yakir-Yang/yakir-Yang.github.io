@@ -4,10 +4,6 @@ date: 2016-08-21 16:34:41
 tags:
 categories: 工具
 ---
-<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
-
-------
-
 **mogrify** 是一个图形处理应用程序，Ubuntu 系统已经集成了此工具。它支持对图片的 `resize`, `blur`, `crop`, `despeckle`, `dither`, `draw on`, `flip`, `re-sample` 等操作。
 
 还有 mogrify 很类似的图形处理工具 [**convert**][convert]，只不过 mogrify 默认是直接在原图上进行修改（除非你使用 `-format` 后缀参数），而 convert 则不是。
@@ -49,3 +45,6 @@ rose.png:     PNG image data, 70 x 46, 8-bit/color RGB, non-interlaced
 
 [convert]: http://www.imagemagick.org/script/convert.php
 [1]:http://www.ibm.com/developerworks/library/l-graf/?ca=dnt-428
+
+<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
+<br>

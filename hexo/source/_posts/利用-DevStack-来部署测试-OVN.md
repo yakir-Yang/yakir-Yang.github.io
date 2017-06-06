@@ -4,10 +4,6 @@ date: 2016-11-06 11:30:28
 tags:
 categories: 网络
 ---
-<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
-
----------
-
 1. 虚拟机环境搭建
 --
 
@@ -81,3 +77,6 @@ stack $ ./stack.sh
 ```
 
 要是不幸的话，就只能自己多看 log，多查查了。只不过问题多半是 python 包安装超时，或者组件源码下载超时。手动把对应包安装下，然后重复运行 `./stack.sh` 就好了。
+
+<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
+<br>

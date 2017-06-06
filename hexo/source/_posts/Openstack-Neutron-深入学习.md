@@ -5,10 +5,6 @@ tags:
 categories: 网络
 toc: true
 ---
-<font color="red"> **本文转载至：** https://xiaofandh12.github.io/OpenStack-Nutron-Learning-Material </font>
-
----------
-
 本文并未完全转载，具体内容依照学习进度而定，希望了解详细全文的童鞋，请移步至[原文](https://xiaofandh12.github.io/OpenStack-Nutron-Learning-Material)
 
 学习什么
@@ -223,3 +219,6 @@ Mailing List and IRC
 
 - openstack-dev@lists.openstack.org
 /#openstack-neutron, /#openstack-meeting-3
+
+<font color="red"> **本文转载至：** https://xiaofandh12.github.io/OpenStack-Nutron-Learning-Material </font>
+<br>

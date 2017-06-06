@@ -4,10 +4,6 @@ date: 2016-09-15 10:16:00
 tags:
 categories: 网络
 ---
-<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
-
-------
-
 优质博文
 -------
 
@@ -81,3 +77,6 @@ categories: 网络
 [理解 OAuth 2.0](http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html)
 
 [HTTP 协议入门](http://www.ruanyifeng.com/blog/2016/08/http.html)
+
+<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
+<br>

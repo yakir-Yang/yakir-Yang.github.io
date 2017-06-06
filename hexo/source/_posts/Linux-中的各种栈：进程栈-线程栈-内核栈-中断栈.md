@@ -5,10 +5,6 @@ date: 2016-08-26 23:24:35
 tags:
 toc: true
 ---
-<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
-
-------
-
 ## 栈是什么？栈有什么作用？
 
 首先，栈 (stack) 是一种串列形式的 **数据结构**。这种数据结构的特点是 **后入先出** (LIFO, Last In First Out)，数据只能在串列的一端 (称为：栈顶 top) 进行 **推入** (push) 和 **弹出** (pop) 操作。根据栈的特点，很容易的想到可以利用数组，来实现这种数据结构。但是本文要讨论的并不是软件层面的栈，而是硬件层面的栈。
@@ -334,3 +330,7 @@ X86 上中断栈就是独立于内核栈的；独立的中断栈所在内存空�
 [Linux中的栈：用户态栈/内核栈/中断栈](http://blog.chinaunix.net/uid-14528823-id-4136760.html)
 
 [What Every Programmer Should Know About Memory? - Ulrich Drepper (Red Hat, Inc.)](http://people.freebsd.org/~lstewart/articles/cpumemory.pdf)
+
+
+<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
+<br>

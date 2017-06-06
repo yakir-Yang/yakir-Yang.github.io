@@ -5,10 +5,6 @@ tags:
 toc: true
 categories: 内核
 ---
-<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
-
-------
-
 ## 调度
 
 * Linux 的进程调度是基于 "处理器比重" 策略，具体实现通过 vruntime 成员。所有进程以各自的 vruntime 作为 Key，链接成为一个 RBTree。调度核心通过查找最小的 vruntime 对应的进程，作为下一刻需要运行的进程。**vruntime 作为进程调度的核心，那它的计算方法是什么？**
@@ -167,3 +163,6 @@ categories: 内核
   ![页表空间大小解析.png](/images/kernel/linux-kernel-development-note/页表空间大小解析.png)
 
  * **TLB 翻译后缓冲器**：由于几乎每次对虚拟内存中的页面访问都必须先解析它，从而得到物理内存中的对应地址，所以页表操作的性能非常关键。TLB 是一个将虚拟地址映射到物理地址的硬件缓存，当请求访问一个虚拟地址时，处理器将首先检查 TLB 中是否缓存了改虚拟地址到物理地址的映射，如果缓存命中，就不需要通过页表搜索对应的物理地址了。
+
+<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
+<br>

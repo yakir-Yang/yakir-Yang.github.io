@@ -4,10 +4,6 @@ date: 2016-10-12 23:36:22
 tags:
 categories: 内核
 ---
-<font color="red"> **本文转载至：** http://jvns.ca/blog/2016/10/10/what-even-is-a-container/ </font>
-
----------
-
 The first time I heard about containers it was like – what? what’s that?
 
 Is a container a process? What’s Docker? Are containers Docker? Help!
@@ -110,3 +106,6 @@ what are containers?
 Okay, now that you’ve seen these two features you might think “wow, yeah, I could build a bunch of scripts around all these features and have something really cool!” It would be really lightweight and my processes would be isolated from each other, and, wow!
 
 Some people thought that in the past too! They built a thing called “Docker containers” that uses these features :). That’s all Docker is! Of course Docker has a lot of features these days, but a lot of it is built on these basic Linux kernel primitives.
+
+<font color="red"> **本文转载至：** http://jvns.ca/blog/2016/10/10/what-even-is-a-container/ </font>
+<br>

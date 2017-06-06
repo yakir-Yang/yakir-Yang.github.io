@@ -4,10 +4,6 @@ date: 2016-09-09 20:21:25
 tags:
 categories: 网络
 ---
-<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
-
-------
-
 优质博文
 -------
 
@@ -83,3 +79,6 @@ categories: 网络
 [VXLAN Explained – Part 1](http://www.borgcube.com/blog/2016/03/12/vxlan-explained-part-1/)
 
 [两个局域网（办公网-IDC）安全互通方案2：by GRE](http://h2ofly.blog.51cto.com/6834926/1544860)
+
+<font color="red"> **转载请注明出处：** http://kyang.cc/ </font>
+<br>
