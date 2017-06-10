@@ -13,11 +13,11 @@ SUNNYVALE, CA – April 19, 2017 – [Mirantis](https://www.mirantis.com/), the 
 
 “Today, infrastructure consumption patterns are defined by the public cloud, where everything is API driven, managed and continuously delivered. Mirantis OpenStack, which featured Fuel as an installer, was the easiest OpenStack distribution to deploy, but every new version required a forklift upgrade,” said Boris Renski, Mirantis co-founder and CMO. “Mirantis Cloud Platform departs from the traditional installer-centric architecture and towards an operations-centric architecture, continuously delivered by either Mirantis or the customers’ DevOps team with zero downtime. Updates no longer happen once every 6-12 months, but are introduced in minor increments on a weekly basis. In the next five to ten years, all vendors in the space will either find a way to adapt to this pattern or they will disappear.”
 
-<!-- more -->
-
 Along with launching [Mirantis Cloud Platform](https://www.mirantis.com/mcp) (MCP) 1.0, Mirantis is also first to introduce a unique delivery model for the platform. Unlike traditional vendors that sell software subscriptions, Mirantis will onboard customers to MCP through a build-operate-transfer delivery model. The company will operate an open cloud platform for customers for a period of at least twelve months with up to four nines SLA prior to off boarding the operational burden to customer’s team, if desired. The delivery model ensures that not just the software, but also the customer’s team and process are aligned with DevOps best practices.
 
 Unlike any other solution in the industry, customers onboarded to MCP have an option to completely transfer the platform under their own management. Everything in MCP is based on popular open standards with no lock-in, making it possible for customers to break ties with Mirantis and run the platform independently should they choose to do so.
+
+<!-- more -->
 
 “We are happy to see a growing number of vendors embrace Kubernetes and launch a commercially supported offering based on the technology,” said Allan Naim from the Kubernetes and Container Engine Product Team.
 
