@@ -76,8 +76,5 @@ deploy:
   repo: git@github.com:yakir-Yang/yakir-Yang.github.io.git
   branch: master
 
-# Duoshuo
-duoshuo_shortname: kyang
-
 # TOC
 toc: false
