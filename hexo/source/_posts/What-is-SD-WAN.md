@@ -5,7 +5,7 @@ tags:
 categories: 网络
 ---
 
-In a netshull, SD-WAN
+In a nutshell, SD-WAN
 
 > - Virtualizes the network
 > - Enables a secure overlay
@@ -107,6 +107,7 @@ Many enterprises, even the largest, outsource the managementof their branch netw
 To address this business requirement, SD‐WAN should enablemanaged service providers (MSPs) to manage the WAN net-works of their clients with a multi‐tenant infrastructure. In addition to the management and orchestration functions, the data center networking components should also be designed for multi‐tenancy and scalable virtual deployment in providers’ cloud data centers.
 
 > SD-WAN 也应该和 SDN 一样，提供多租户模式。
+
 
 
 <font color="red"> **本文摘取至：Velocloud's [Software-Defined WAN for Dummies]** </font>
