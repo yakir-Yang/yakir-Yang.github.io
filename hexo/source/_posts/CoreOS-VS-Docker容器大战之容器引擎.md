@@ -15,7 +15,7 @@ categories: 故事
 
 看到这个标题，你的表情可能是这样滴[惊愕]：纳尼？容器引擎不就是docker么？这时，[CoreOS](https://www.kubernetes.org.cn/tags/coreos)可能在后面默默地流泪，因为CoreOS的[rkt](https://www.kubernetes.org.cn/tags/rkt)也是玩家中的一员。虽然目前Docker的容器使用者相对更多，但rkt的发展也不可忽视。
 
-![docker-and-rtk](images/storages/kubernetes/docker-and-rkt-logos.png)
+![docker-and-rtk](/images/storages/kubernetes/docker-and-rkt-logos.png)
 
 ## Rocket 与 Docker 引发的站队
 
