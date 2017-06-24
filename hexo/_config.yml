@@ -50,6 +50,7 @@ category_map:
         内核: linux-kernel
         网络: network
         工具: tools
+        故事: storages
 tag_map:
 
 # Date / Time format
