@@ -38,4 +38,10 @@ categories: 网络
 - [SCTP: Management of Retransmission Timer](https://tools.ietf.org/html/rfc4960#section-6.3)
 
 
+### Pacing Rate
+- [使用TCP时序图解释BBR拥塞控制算法的几个细节](http://blog.csdn.net/dog250/article/details/72042516)
+- [TCP BBR算法中Pacing，cwnd，fq以及TSQ对RTT的影响](http://blog.csdn.net/dog250/article/details/72849890)
+- [彻底实现Linux TCP的Pacing发送逻辑-普通timer版](http://blog.csdn.net/dog250/article/details/54424629)
+- [彻底实现Linux TCP的Pacing发送逻辑-高精度hrtimer版](http://blog.csdn.net/dog250/article/details/54424751)
+
 > [Bomb250](http://my.csdn.net/dog250) 这个人写的 TCP 相关的东西，是写的真好。剖析的很深入，但居然很易懂 [赞]。
