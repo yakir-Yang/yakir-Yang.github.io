@@ -36,6 +36,12 @@ categories: 网络
 
 
 
+**Metrics**
+
+```
+# tc -s qdisc ls dev ens4
+```
+
 更多 TC 内部机制细节，请参考 http://perthcharles.github.io/2015/06/12/tc-tutorial/
 
 
