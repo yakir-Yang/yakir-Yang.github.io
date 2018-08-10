@@ -1,9 +1,9 @@
 ---
 title: Linux 中的各种栈：进程栈 线程栈 内核栈 中断栈
-categories: 内核
 date: 2016-08-26 23:24:35
 tags:
 toc: true
+categories: Kernel
 ---
 ## 栈是什么？栈有什么作用？
 

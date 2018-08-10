@@ -1,7 +1,7 @@
 ---
 title: 'TCP性能指标：CPS,TPS,最大并发连接数'
 date: 2017-07-05 23:22:06
-tags:
+categories: Network
 ---
 
 本篇主要介绍除RFC2544四项指标外的其它指标的测试方法。其中的性能测试项主要来源于[RFC3511](https://www.ietf.org/rfc/rfc3511.txt)中的定义，并根据实际需求，更新或舍弃了部分指标项。

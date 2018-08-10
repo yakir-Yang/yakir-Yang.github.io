@@ -2,7 +2,7 @@
 title: Openstack 网络部分概念整理
 date: 2016-12-03 09:30:17
 tags:
-categories: 网络
+categories: Network
 ---
 ## Openstack 概念
 

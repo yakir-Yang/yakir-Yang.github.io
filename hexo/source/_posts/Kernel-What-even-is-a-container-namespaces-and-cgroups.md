@@ -2,7 +2,7 @@
 title: 'What even is a container: namespaces and cgroups'
 date: 2016-10-12 23:36:22
 tags:
-categories: 内核
+categories: Kernel
 ---
 The first time I heard about containers it was like – what? what’s that?
 

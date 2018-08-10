@@ -2,7 +2,7 @@
 title: Kubernetes在微服务化游戏中的探索实践
 date: 2017-06-24 22:14:47
 tags:
-categories: 网络
+categories: k8s
 ---
 
 大家好，我是黄惠波，今天分享的主题是kubernetes在微服务化游戏中的探索实践

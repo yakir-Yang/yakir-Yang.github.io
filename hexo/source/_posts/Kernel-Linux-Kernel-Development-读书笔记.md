@@ -3,7 +3,7 @@ title: Linux Kernel Development 读书笔记
 date: 2016-08-20 09:41:59
 tags:
 toc: true
-categories: 内核
+categories: Kernel
 ---
 ## 调度
 

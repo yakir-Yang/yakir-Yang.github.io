@@ -2,7 +2,7 @@
 title: 'Openstack: Neutron 深入学习'
 date: 2016-10-13 22:46:23
 tags:
-categories: 网络
+categories: Network
 toc: true
 ---
 本文并未完全转载，具体内容依照学习进度而定，希望了解详细全文的童鞋，请移步至[原文](https://xiaofandh12.github.io/OpenStack-Nutron-Learning-Material)

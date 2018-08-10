@@ -2,7 +2,7 @@
 title: 利用 DevStack 来部署测试 OVN (Open Virtual Network)
 date: 2016-11-06 11:30:28
 tags:
-categories: 网络
+categories: Network
 ---
 1. 虚拟机环境搭建
 --

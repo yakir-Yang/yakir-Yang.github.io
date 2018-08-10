@@ -1,7 +1,7 @@
 ---
 title: Mirantis Releases Kubernetes Distribution and Updated Mirantis OpenStack
 date: 2017-06-06 10:08:11
-tags:
+tags: Storage
 ---
 
 *April 19, 2017*

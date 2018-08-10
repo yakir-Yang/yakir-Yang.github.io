@@ -2,7 +2,7 @@
 title: The Advantages of SD‐WAN over Traditional WAN
 date: 2017-06-18 23:17:33
 tags:
-categories: 网络
+categories: Network
 ---
 
 An SD‐WAN has several advantages over a traditional WAN.

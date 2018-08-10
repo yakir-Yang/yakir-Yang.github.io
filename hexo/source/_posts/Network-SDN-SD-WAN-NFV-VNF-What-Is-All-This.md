@@ -2,7 +2,7 @@
 title: 'SDN, SD-WAN, NFV, VNF: What Is All This?'
 date: 2017-06-10 10:06:03
 tags:
-categories: 网络
+categories: Network
 ---
 
 Inscrutable alphabet soup. Even the fully expanded terms are only slightly more digestible. But they’re not truly all that confusing: the underlying principles are elegant and illuminating.

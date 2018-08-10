@@ -1,8 +1,8 @@
 ---
 title: AT&T CTO：容器是网络架构的关键
 date: 2017-06-05 23:25:26
-tags:
-categories: 网络
+tags: Reprint
+categories: Storage
 ---
 
 AT&T将容器视为其网络架构计划的“真正重大且重要的组成部分”，电信行业巨头AT&T实验室总裁兼首席技术官Andre Fuetsch表示，该运营商正在尝试将容器引入到业务中去。

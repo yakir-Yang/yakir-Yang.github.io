@@ -47,10 +47,11 @@ highlight:
 # Category & Tag
 default_category: uncategorized
 category_map:
-        内核: linux-kernel
-        网络: network
-        工具: tools
-        故事: storages
+        内核: Kernel
+        网络: Network
+        工具: Tools
+        故事: Storages
+        k8s: Kubernetes
 tag_map:
 
 # Date / Time format

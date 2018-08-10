@@ -2,7 +2,7 @@
 title: How to test SD-WANs
 date: 2017-06-08 12:06:41
 tags:
-categories: 网络
+categories: Network
 ---
 
 When determining the best SD-WAN solution for your company, there are some basic things you should test, such as scalability, failover, application performance and usability
