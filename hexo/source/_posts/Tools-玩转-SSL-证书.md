@@ -290,7 +290,7 @@ openssl x509 -noout -modulus -in domain.crt | openssl md5
 
 
 
-####**PEM 格式 vs DER 格式**
+#### PEM 格式 vs DER 格式
 
 The DER format is typically used with Java.
 
@@ -312,7 +312,7 @@ openssl x509 \
 
 
 
-#### **PEM 格式 vs PKCS7 格式**
+#### PEM 格式 vs PKCS7 格式
 
 > PKCS7 files, also known as P7B, are typically used in Java Keystores and Microsoft IIS (Windows). They are ASCII files which can contain certificates and CA certificates.
 
@@ -337,7 +337,7 @@ openssl pkcs7 \
 
 
 
-#### **PEM 格式 vs PKCS12 格式**
+#### PEM 格式 vs PKCS12 格式
 
 > PKCS12 files, also known as PFX files, are typically used for importing and exporting certificate chains in Micrsoft IIS (Windows).
 
