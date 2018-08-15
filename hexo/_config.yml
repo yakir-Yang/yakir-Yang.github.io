@@ -79,16 +79,4 @@ deploy:
   branch: master
 
 # TOC
-toc: false
-
-# Markdown-it config
-## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki
-markdown:
-  render:
-    html: true # Doesn't escape HTML content so the tags will appear as html.
-    xhtmlOut: false # Parser will not produce XHTML compliant code.
-    breaks: true # Parser produces `<br>` tags every time there is a line break in the source document.
-    linkify: false # Returns text links as text.
-    typographer: true # Substitution of common typographical elements will take place.
-    quotes: '“”‘’' # "double" will be turned into “single”
-                   # 'single' will be turned into ‘single’
+toc: true
