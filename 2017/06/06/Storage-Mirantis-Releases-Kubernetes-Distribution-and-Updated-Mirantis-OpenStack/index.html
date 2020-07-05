@@ -1,0 +1,840 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Storage,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="April 19, 2017By Dave Van Everen Mirantis Cloud Platform 1.0 is a distribution of OpenStack and Kubernetes that can orchestrate VMs, Containers and Bare Metal SUNNYVALE, CA – April 19, 2017 – Mirantis">
+<meta name="keywords" content="Storage">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mirantis Releases Kubernetes Distribution and Updated Mirantis OpenStack">
+<meta property="og:url" content="http://yakir-yang.github.io/2017/06/06/Storage-Mirantis-Releases-Kubernetes-Distribution-and-Updated-Mirantis-OpenStack/index.html">
+<meta property="og:site_name" content="Kuankuan">
+<meta property="og:description" content="April 19, 2017By Dave Van Everen Mirantis Cloud Platform 1.0 is a distribution of OpenStack and Kubernetes that can orchestrate VMs, Containers and Bare Metal SUNNYVALE, CA – April 19, 2017 – Mirantis">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-05T08:50:33.164Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mirantis Releases Kubernetes Distribution and Updated Mirantis OpenStack">
+<meta name="twitter:description" content="April 19, 2017By Dave Van Everen Mirantis Cloud Platform 1.0 is a distribution of OpenStack and Kubernetes that can orchestrate VMs, Containers and Bare Metal SUNNYVALE, CA – April 19, 2017 – Mirantis">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yakir-yang.github.io/2017/06/06/Storage-Mirantis-Releases-Kubernetes-Distribution-and-Updated-Mirantis-OpenStack/">
+
+
+
+
+
+  <title>Mirantis Releases Kubernetes Distribution and Updated Mirantis OpenStack | Kuankuan</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kuankuan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">活捉一只程序猿。。。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yakir-yang.github.io/2017/06/06/Storage-Mirantis-Releases-Kubernetes-Distribution-and-Updated-Mirantis-OpenStack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="KK">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/kk.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kuankuan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mirantis Releases Kubernetes Distribution and Updated Mirantis OpenStack</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T10:08:11+08:00">
+                2017-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/06/Storage-Mirantis-Releases-Kubernetes-Distribution-and-Updated-Mirantis-OpenStack/" class="leancloud_visitors" data-flag-title="Mirantis Releases Kubernetes Distribution and Updated Mirantis OpenStack">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>April 19, 2017</em><br><em>By <a href="https://www.mirantis.com/author/david-van-everen/" target="_blank" rel="noopener">Dave Van Everen</a></em></p>
+<p>Mirantis Cloud Platform 1.0 is a distribution of OpenStack and <a href="https://www.mirantis.com/software/kubernetes/?utm_campaign=k8s%20weight%20increasing" target="_blank" rel="noopener">Kubernetes</a> that can orchestrate VMs, Containers and Bare Metal</p>
+<p>SUNNYVALE, CA – April 19, 2017 – <a href="https://www.mirantis.com/" target="_blank" rel="noopener">Mirantis</a>, the managed open cloud company, today announced availability of a commercially-supported distribution of OpenStack and Kubernetes, delivered in a single, integrated package, and with a unique build-operate-transfer delivery model.</p>
+<p>“Today, infrastructure consumption patterns are defined by the public cloud, where everything is API driven, managed and continuously delivered. Mirantis OpenStack, which featured Fuel as an installer, was the easiest OpenStack distribution to deploy, but every new version required a forklift upgrade,” said Boris Renski, Mirantis co-founder and CMO. “Mirantis Cloud Platform departs from the traditional installer-centric architecture and towards an operations-centric architecture, continuously delivered by either Mirantis or the customers’ DevOps team with zero downtime. Updates no longer happen once every 6-12 months, but are introduced in minor increments on a weekly basis. In the next five to ten years, all vendors in the space will either find a way to adapt to this pattern or they will disappear.”</p>
+<p>Along with launching <a href="https://www.mirantis.com/mcp" target="_blank" rel="noopener">Mirantis Cloud Platform</a> (MCP) 1.0, Mirantis is also first to introduce a unique delivery model for the platform. Unlike traditional vendors that sell software subscriptions, Mirantis will onboard customers to MCP through a build-operate-transfer delivery model. The company will operate an open cloud platform for customers for a period of at least twelve months with up to four nines SLA prior to off boarding the operational burden to customer’s team, if desired. The delivery model ensures that not just the software, but also the customer’s team and process are aligned with DevOps best practices.</p>
+<p>Unlike any other solution in the industry, customers onboarded to MCP have an option to completely transfer the platform under their own management. Everything in MCP is based on popular open standards with no lock-in, making it possible for customers to break ties with Mirantis and run the platform independently should they choose to do so.</p>
+<a id="more"></a>
+<p>“We are happy to see a growing number of vendors embrace Kubernetes and launch a commercially supported offering based on the technology,” said Allan Naim from the Kubernetes and Container Engine Product Team.</p>
+<p>Mirantis also collaborated with Intel to drive upstream optimizations to the OpenStack platform to drive increased customer hardening and fully take advantage of Intel architecture capabilities. This joint development can now be used in MCP.</p>
+<p>“Over the last two years, Intel has worked closely with Mirantis to optimize OpenStack to meet the requirements of large enterprise and comms service providers’ environments,” said Lisa Davis, vice president and general manager of Enterprise &amp; Government IT Modernization, Intel Corporation Data Center Group. “Examples of our joint work include improved network, storage, and high availability capabilities as well as Kubernetes enhancements. Customers will now be able to take advantage of these optimizations with this release of the Mirantis Cloud Platform.”</p>
+<p>“As the industry embraces composable, open infrastructure, the “LAMP stack of cloud” is emerging, made up of OpenStack, Kubernetes, and other key open technologies,” said Mark Collier, chief operating officer, OpenStack Foundation. “Mirantis Cloud Platform presents a new vision for the OpenStack distribution, one that embraces diverse compute, storage and networking technologies continuously rather than via major upgrades on six-month cycles.”</p>
+<p>Specifically, Mirantis Cloud Platform 1.0 is:</p>
+<ul>
+<li><strong>Open Cloud Software</strong> — providing a single platform to orchestrate VMs, containers and bare metal compute resources by:<ul>
+<li>Expanding Mirantis OpenStack to include Kubernetes for container orchestration.</li>
+<li>Complementing the virtual compute stacks with best-in-class open source software defined networking (SDN), specifically Mirantis OpenContrail for VMs and bare metal, and Calico for containers.</li>
+<li>Featuring Ceph, the most popular open source software defined storage (SDS), for both Kubernetes and OpenStack.</li>
+</ul>
+</li>
+<li><strong>DriveTrain</strong> — Mirantis DriveTrain sets the foundation for DevOps style lifecycle management of the open cloud software stack by enabling continuous integration, continuous testing and continuous delivery through a CI/ CD pipeline. DriveTrain enables:<ul>
+<li>Increased Day 1 flexibility to customize the reference architecture and configurations during initial software installation.</li>
+<li>Greater ability to perform Day 2 operations such as post-deployment configuration, functionality and architecture changes.</li>
+<li>Seamless version updates through an automated pipeline to a virtualized control plane to minimize downtime.</li>
+</ul>
+</li>
+<li><strong>StackLight</strong> — enables strict compliance to availability SLAs by providing continuous monitoring of the open cloud software stacks through a unified set of software services and dashboards.<ul>
+<li>StackLight avoids lock-in by including best-in-breed open source software for log management, metrics and alerts.</li>
+<li>It includes a comprehensive DevOps portal that displays information such as StackLight visualization and DriveTrain configuration settings.</li>
+<li>The entire Mirantis StackLight toolchain is purpose-built for MCP to enable up to 99.99% uptime service level agreements with Mirantis Managed OpenStack.</li>
+</ul>
+</li>
+</ul>
+<p>With the release of MCP, Mirantis is also announcing end-of-life for Mirantis OpenStack (MOS) and Fuel by September 2019. Mirantis will be working with all customers currently using MOS on a tailored transition plan from MOS to MCP.</p>
+<p>To learn more about MCP, watch an overview video and sign up for the introductory webinar at <a href="http://www.mirantis.com/mcp" target="_blank" rel="noopener">www.mirantis.com/mcp</a>.</p>
+<h2 id="About-Mirantis"><a href="#About-Mirantis" class="headerlink" title="About Mirantis"></a>About Mirantis</h2><p>Mirantis delivers open cloud infrastructure to top enterprises using OpenStack, Kubernetes and related open source technologies. The company is a major contributor of code to many open infrastructure projects and follows a build-operate-transfer model to deliver its Mirantis Cloud Platform and cloud management services, empowering customers to take advantage of open source innovation with no vendor lock-in. To date Mirantis has helped over 200 enterprises build and operate some of the largest open clouds in the world. Its customers include iconic brands such as AT&amp;T, Comcast, Shenzhen Stock Exchange, eBay, Wells Fargo Bank and Volkswagen. Learn more at <a href="http://www.mirantis.com" target="_blank" rel="noopener">www.mirantis.com</a>.</p>
+<p>###</p>
+<p>Contact information:<br>Joseph Eckert for Mirantis<br><a href="mailto:jeckertflak@gmail.com" target="_blank" rel="noopener">jeckertflak@gmail.com</a></p>
+<p><font color="red"> <strong>本文转载至：<a href="https://www.mirantis.com/company/press-center/company-news/mirantis-releases-kubernetes-distribution-and-updated-mirantis-openstack/" target="_blank" rel="noopener">https://www.mirantis.com/company/press-center/company-news/mirantis-releases-kubernetes-distribution-and-updated-mirantis-openstack/</a></strong> </font><br><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Storage/" rel="tag"># Storage</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/05/Storage-AT-T-CTO：容器是网络架构的关键/" rel="next" title="AT&T CTO：容器是网络架构的关键">
+                <i class="fa fa-chevron-left"></i> AT&T CTO：容器是网络架构的关键
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/08/Network-How-to-test-SD-WANs/" rel="prev" title="How to test SD-WANs">
+                How to test SD-WANs <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/kk.jpg" alt="KK">
+          <p class="site-author-name" itemprop="name">KK</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#About-Mirantis"><span class="nav-number">1.</span> <span class="nav-text">About Mirantis</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KK</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("H4eMW5qsm3YJlNjl5UoFD5v3-gzGzoHsz", "hjp02k1QkpoTpjWjqWQu8uaM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,901 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="专业的人说的很准确但是普通人难以理解，常常记不住，分不清，不专业的人往往又说的差点意思。无意间，笔者在领英上看到一个介绍SDN/NFV区别的公开文档，内容详实，简明扼要。 这里我将这个文档精彩的部分分享给大家。 开篇鸣谢：原作者是Riverbed的产品市场经理JustynaBak。 Page1：核心  SDN的三个核心要点有三个：  将控制平面和数据平面分离，这是最核心的部分，现在经常提到的SDS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十张图看懂SDN与NFV的区别与联系">
+<meta property="og:url" content="http://yakir-yang.github.io/2017/06/12/Network-十张图看懂SDN与NFV的区别与联系/index.html">
+<meta property="og:site_name" content="Kuankuan">
+<meta property="og:description" content="专业的人说的很准确但是普通人难以理解，常常记不住，分不清，不专业的人往往又说的差点意思。无意间，笔者在领英上看到一个介绍SDN/NFV区别的公开文档，内容详实，简明扼要。 这里我将这个文档精彩的部分分享给大家。 开篇鸣谢：原作者是Riverbed的产品市场经理JustynaBak。 Page1：核心  SDN的三个核心要点有三个：  将控制平面和数据平面分离，这是最核心的部分，现在经常提到的SDS">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-2.jpeg">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-3.jpeg">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-4.jpeg">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-5.jpeg">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-6.jpeg">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-7.jpeg">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-8.jpeg">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-9.jpeg">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-10.jpeg">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-11.jpeg">
+<meta property="og:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-12.jpeg">
+<meta property="og:updated_time" content="2020-07-05T08:50:33.163Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="十张图看懂SDN与NFV的区别与联系">
+<meta name="twitter:description" content="专业的人说的很准确但是普通人难以理解，常常记不住，分不清，不专业的人往往又说的差点意思。无意间，笔者在领英上看到一个介绍SDN/NFV区别的公开文档，内容详实，简明扼要。 这里我将这个文档精彩的部分分享给大家。 开篇鸣谢：原作者是Riverbed的产品市场经理JustynaBak。 Page1：核心  SDN的三个核心要点有三个：  将控制平面和数据平面分离，这是最核心的部分，现在经常提到的SDS">
+<meta name="twitter:image" content="http://yakir-yang.github.io/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-2.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yakir-yang.github.io/2017/06/12/Network-十张图看懂SDN与NFV的区别与联系/">
+
+
+
+
+
+  <title>十张图看懂SDN与NFV的区别与联系 | Kuankuan</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kuankuan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">活捉一只程序猿。。。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yakir-yang.github.io/2017/06/12/Network-十张图看懂SDN与NFV的区别与联系/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="KK">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/kk.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kuankuan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">十张图看懂SDN与NFV的区别与联系</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-12T20:38:54+08:00">
+                2017-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Network/" itemprop="url" rel="index">
+                    <span itemprop="name">Network</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/12/Network-十张图看懂SDN与NFV的区别与联系/" class="leancloud_visitors" data-flag-title="十张图看懂SDN与NFV的区别与联系">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>专业的人说的很准确但是普通人难以理解，常常记不住，分不清，不专业的人往往又说的差点意思。无意间，笔者在领英上看到一个介绍SDN/NFV区别的公开文档，内容详实，简明扼要。 这里我将这个文档精彩的部分分享给大家。</p>
+<p>开篇鸣谢：原作者是Riverbed的产品市场经理JustynaBak。</p>
+<h3 id="Page1：核心"><a href="#Page1：核心" class="headerlink" title="Page1：核心"></a>Page1：核心</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-2.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<blockquote>
+<p>SDN的三个核心要点有三个：</p>
+<ul>
+<li>将控制平面和数据平面分离，这是最核心的部分，现在经常提到的SDS其核心也是控制和转发分离，这是SDS设计重要原则之一，可见SDN是先于SDS的；</li>
+<li>SDN使用的都是商用化，通用的路由器和交换机，这是相对于专有的芯片，专有的架构，专有的设备而言的；</li>
+<li>控制面可编程；</li>
+</ul>
+<p>对应的NFV的三大关键点是：</p>
+<ul>
+<li>将网络设备的功能从网络硬件中解耦出来；</li>
+<li>将电信硬件设备从专用产品转为商业化产品；</li>
+<li>数据平面可编程；</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<h3 id="Page2：起源"><a href="#Page2：起源" class="headerlink" title="Page2：起源"></a>Page2：起源</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-3.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<blockquote>
+<p>SDN起源于园区网，成熟于数据中心；</p>
+<p>NFV始于运营商，最初主要是大型运营商在搞的；</p>
+</blockquote>
+<h3 id="Page3：代言人"><a href="#Page3：代言人" class="headerlink" title="Page3：代言人"></a>Page3：代言人</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-4.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<blockquote>
+<p>加州大学伯利克分校教授，Nicira创始人，美国工程院院士，SDN运动的主要开创者之一，计算机网络世界最著名的人物之一。熟悉SDN的人都知道的这人，几年前来过一次中国。</p>
+<p>爱立信执行副总裁，现任沃达丰CTO。（说实话，笔者对这人不熟）</p>
+</blockquote>
+<h3 id="Page4：适用范围"><a href="#Page4：适用范围" class="headerlink" title="Page4：适用范围"></a>Page4：适用范围</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-5.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<blockquote>
+<p>SDN跟NFV最明显的区别是，SDN处理的是OSI模型中的2-3层，NFV处理的是4-7。</p>
+<ul>
+<li><p>SDN主要是优化网络基础设施架构，比如以太网交换机，路由器和无线网络等。</p>
+</li>
+<li><p>NFV主要是优化网络的功能，比如负载均衡，防火墙，WAN网优化控制器等。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="Page5：-类似的转变"><a href="#Page5：-类似的转变" class="headerlink" title="Page5： 类似的转变"></a>Page5： 类似的转变</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-6.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<blockquote>
+<p>这里做了一个特别有意思的类比，类似于C语言面向过程到C++的面向对象的变化。熟悉编程基础的朋友对此非常熟悉，以对象为思考的元素，更容易建立编程逻辑。</p>
+<ul>
+<li><p>SDN的转变是从分布式的，采用复杂协议的专用网络设备，用低级的管理工具管理，转变为用高级管理工具管理商用设备组成的集中式架构系统。</p>
+</li>
+<li><p>NFV的转变是，从现场工程师配置专用设备，变为远程工程师配置虚拟化设备。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="Page6：带来的好处"><a href="#Page6：带来的好处" class="headerlink" title="Page6：带来的好处"></a>Page6：带来的好处</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-7.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<blockquote>
+<p>SDN带来的好处：</p>
+<ul>
+<li>简化由成千上万来自不同供应商，API接口的物理路由器交换机组成的整个网络的配置过程。</li>
+<li>从应用或者策略管理的来看，整个网络大大简化，从而简化了操作。</li>
+<li>减少成本，不用再为一些功能强大的贵的硬件花冤枉钱了。</li>
+</ul>
+<p>NFV带来的好处：</p>
+<ul>
+<li>加快产品和新业务推向市场的速度，因为无需改变硬件，要知道，硬件修改要费尽的多，开发测试周期太长。</li>
+<li>由于标准化的作用，带来采购，设计，集成和基础设施的维护的过程大大简化；</li>
+<li>由于有了动态分配硬件资源的能力，可以在确定的时间增加网络功能，从而增加了灵活性/扩展；</li>
+</ul>
+</blockquote>
+<h3 id="Page7：标准的制定者"><a href="#Page7：标准的制定者" class="headerlink" title="Page7：标准的制定者"></a>Page7：标准的制定者</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-8.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<blockquote>
+<p>SDN是ONF，NFV是ETSI；</p>
+</blockquote>
+<h3 id="Page8：SDN为数据中心网络架构带来的变化"><a href="#Page8：SDN为数据中心网络架构带来的变化" class="headerlink" title="Page8：SDN为数据中心网络架构带来的变化"></a>Page8：SDN为数据中心网络架构带来的变化</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-9.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<h3 id="Page9：NFV对运营商网络架构带来的变化"><a href="#Page9：NFV对运营商网络架构带来的变化" class="headerlink" title="Page9：NFV对运营商网络架构带来的变化"></a>Page9：NFV对运营商网络架构带来的变化</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-10.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<h3 id="Page10：NFV为终端用户网络架构带来的变化"><a href="#Page10：NFV为终端用户网络架构带来的变化" class="headerlink" title="Page10：NFV为终端用户网络架构带来的变化"></a>Page10：NFV为终端用户网络架构带来的变化</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-11.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<h3 id="Page11：SDN和NFV以及相关技术组成在网络架构中所处的位置"><a href="#Page11：SDN和NFV以及相关技术组成在网络架构中所处的位置" class="headerlink" title="Page11：SDN和NFV以及相关技术组成在网络架构中所处的位置"></a>Page11：SDN和NFV以及相关技术组成在网络架构中所处的位置</h3><p><img src="/images/network/sdn-nfv/SDN-NFV-Friends-or-Enemies-12.jpeg" alt="SDN-NFV-Friends-or-Enemies"></p>
+<p><font color="red"> <strong>本文转载至：<a href="http://www.doit.com.cn/p/255330.html" target="_blank" rel="noopener">http://www.doit.com.cn/p/255330.html</a></strong> </font><br><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/10/Network-SDN-SD-WAN-NFV-VNF-What-Is-All-This/" rel="next" title="SDN, SD-WAN, NFV, VNF: What Is All This?">
+                <i class="fa fa-chevron-left"></i> SDN, SD-WAN, NFV, VNF: What Is All This?
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/14/Network-SDN和NFV的区别与联系/" rel="prev" title="SDN和NFV的区别与联系">
+                SDN和NFV的区别与联系 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/kk.jpg" alt="KK">
+          <p class="site-author-name" itemprop="name">KK</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Page1：核心"><span class="nav-number">1.</span> <span class="nav-text">Page1：核心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page2：起源"><span class="nav-number">2.</span> <span class="nav-text">Page2：起源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page3：代言人"><span class="nav-number">3.</span> <span class="nav-text">Page3：代言人</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page4：适用范围"><span class="nav-number">4.</span> <span class="nav-text">Page4：适用范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page5：-类似的转变"><span class="nav-number">5.</span> <span class="nav-text">Page5： 类似的转变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page6：带来的好处"><span class="nav-number">6.</span> <span class="nav-text">Page6：带来的好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page7：标准的制定者"><span class="nav-number">7.</span> <span class="nav-text">Page7：标准的制定者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page8：SDN为数据中心网络架构带来的变化"><span class="nav-number">8.</span> <span class="nav-text">Page8：SDN为数据中心网络架构带来的变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page9：NFV对运营商网络架构带来的变化"><span class="nav-number">9.</span> <span class="nav-text">Page9：NFV对运营商网络架构带来的变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page10：NFV为终端用户网络架构带来的变化"><span class="nav-number">10.</span> <span class="nav-text">Page10：NFV为终端用户网络架构带来的变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page11：SDN和NFV以及相关技术组成在网络架构中所处的位置"><span class="nav-number">11.</span> <span class="nav-text">Page11：SDN和NFV以及相关技术组成在网络架构中所处的位置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KK</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("H4eMW5qsm3YJlNjl5UoFD5v3-gzGzoHsz", "hjp02k1QkpoTpjWjqWQu8uaM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

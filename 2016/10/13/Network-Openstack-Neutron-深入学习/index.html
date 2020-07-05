@@ -1,0 +1,879 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="本文并未完全转载，具体内容依照学习进度而定，希望了解详细全文的童鞋，请移步至原文 学习什么 neutron代码的整体架构，消息通知、rpc如何实现，RESTful API如何实现 neutron的部署，常见问题的定位方法 neutron的配置文件 neutron的数据库设计，数据库中各表格的作用及其关联关系 neutron-server的启动流程及其作用 neutron-rpc-server的启动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Openstack: Neutron 深入学习">
+<meta property="og:url" content="http://yakir-yang.github.io/2016/10/13/Network-Openstack-Neutron-深入学习/index.html">
+<meta property="og:site_name" content="Kuankuan">
+<meta property="og:description" content="本文并未完全转载，具体内容依照学习进度而定，希望了解详细全文的童鞋，请移步至原文 学习什么 neutron代码的整体架构，消息通知、rpc如何实现，RESTful API如何实现 neutron的部署，常见问题的定位方法 neutron的配置文件 neutron的数据库设计，数据库中各表格的作用及其关联关系 neutron-server的启动流程及其作用 neutron-rpc-server的启动">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-05T08:50:33.161Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Openstack: Neutron 深入学习">
+<meta name="twitter:description" content="本文并未完全转载，具体内容依照学习进度而定，希望了解详细全文的童鞋，请移步至原文 学习什么 neutron代码的整体架构，消息通知、rpc如何实现，RESTful API如何实现 neutron的部署，常见问题的定位方法 neutron的配置文件 neutron的数据库设计，数据库中各表格的作用及其关联关系 neutron-server的启动流程及其作用 neutron-rpc-server的启动">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yakir-yang.github.io/2016/10/13/Network-Openstack-Neutron-深入学习/">
+
+
+
+
+
+  <title>Openstack: Neutron 深入学习 | Kuankuan</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kuankuan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">活捉一只程序猿。。。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yakir-yang.github.io/2016/10/13/Network-Openstack-Neutron-深入学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="KK">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/kk.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kuankuan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Openstack: Neutron 深入学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-13T22:46:23+08:00">
+                2016-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Network/" itemprop="url" rel="index">
+                    <span itemprop="name">Network</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/10/13/Network-Openstack-Neutron-深入学习/" class="leancloud_visitors" data-flag-title="Openstack: Neutron 深入学习">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文并未完全转载，具体内容依照学习进度而定，希望了解详细全文的童鞋，请移步至<a href="https://xiaofandh12.github.io/OpenStack-Nutron-Learning-Material" target="_blank" rel="noopener">原文</a></p>
+<h2 id="学习什么"><a href="#学习什么" class="headerlink" title="学习什么"></a>学习什么</h2><ul>
+<li>neutron代码的整体架构，消息通知、rpc如何实现，RESTful API如何实现</li>
+<li>neutron的部署，常见问题的定位方法</li>
+<li>neutron的配置文件</li>
+<li>neutron的数据库设计，数据库中各表格的作用及其关联关系</li>
+<li>neutron-server的启动流程及其作用</li>
+<li>neutron-rpc-server的启动流程及其作用</li>
+<li>neutron-openvswitch-agent的启动流程及其作用</li>
+<li>neutron-dhcp-agent的启动流程及其作用</li>
+<li>neutron-l3-agent的启动流程及其作用</li>
+<li>neutron-linuxbridge-agent的启动流程及其作用</li>
+<li>openvswitch、openflow、linuxbridge、iptables，tap device, veth pair的原理及其作用</li>
+<li>plugin, driver, agent的关联关系，及作用</li>
+<li>flat, vlan, gre, vxlan的网络模式是如何实现的</li>
+<li>如何与keystone交互进行身份认证，policy.json的原理和作用</li>
+<li>nova会调用哪些neutron的API，流程是怎样的</li>
+<li>neutron处理API请求的流程</li>
+<li>firewall as a service, load banalance as a service, vpn as a service， security group</li>
+<li>neutron的HA如何实现</li>
+<li>neutron各种部署方式下，两个虚拟机之间如何通信以及虚拟机如何与外网通信</li>
+<li>关注邮件列表、IRC、OpenStack Summit，了解neutron最新动态</li>
+<li>SDN/NFV</li>
+</ul>
+<a id="more"></a>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><ul>
+<li><p><a href="https://github.com/openstack/neutron" target="_blank" rel="noopener">OpenStack Neutron</a></p>
+</li>
+<li><p><a href="http://www.aboutyun.com/forum.php?mod=viewthread&amp;tid=9523&amp;highlight=Neutron%2B%2B%C8%EB%C3%C5" target="_blank" rel="noopener">OpenStack之Neutron入门一</a></p>
+</li>
+<li><a href="http://www.aboutyun.com/thread-9517-1-1.html" target="_blank" rel="noopener">OpenStack之Neutron入门二</a></li>
+<li><a href="http://www.aboutyun.com/thread-9537-1-1.html" target="_blank" rel="noopener">OpenStack之Neutron入门三</a></li>
+<li><a href="http://blog.chinaunix.net/uid-20940095-id-4105407.html" target="_blank" rel="noopener">openstack源码分析 - Paste Deployment介绍</a></li>
+<li><a href="http://www.aboutyun.com/thread-9527-1-1.html" target="_blank" rel="noopener">openstack neutron分析（1）——neutron-server启动过程分析</a></li>
+<li><a href="http://www.aboutyun.com/thread-9529-1-1.html" target="_blank" rel="noopener">openstack Neutron分析（2）—— neutron-l3-agent</a><br>openstack Neutron分析（3）—— neutron-dhcp-agent源码分析<br>openstack Neutron分析（4）—— neutron-l3-agent中的iptables<br>openstack Neutron分析（5）– neutron openvswitch agent<br>openstack nova 源码分析1-setup脚本<br>openstack nova 源码分析2之nova-api,nova-compute<br>openstack nova 源码分析3-nova目录下的service.py、driver.py<br>openstack nova 源码分析4-1 -nova/virt/libvirt目录下的connection.py<br>openstack nova 源码分析4-2 -nova/virt/libvirt目录下的connection.py<br>OpenStack Nova源码结构解析<br>OpenStack源码探秘（一）——Nova-Scheduler<br>别以为真懂Openstack: 虚拟机创建的50个步骤和100个知识点(1)<br>别以为真懂Openstack: 虚拟机创建的50个步骤和100个知识点(2)<br>别以为真懂Openstack: 虚拟机创建的50个步骤和100个知识点(3)<br>别以为真懂Openstack: 虚拟机创建的50个步骤和100个知识点(4)<br>别以为真懂Openstack: 虚拟机创建的50个步骤和100个知识点(5)</li>
+</ul>
+<h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><h2 id="OpenStack-Doc官网"><a href="#OpenStack-Doc官网" class="headerlink" title="OpenStack Doc官网"></a>OpenStack Doc官网</h2><ul>
+<li>OpenStack Installation Guide for Red Hat Enterprise Linux and CentOS<br>OpenStack Networking Guide<br>OpenStack Operations Guide<br>Architecture -&gt; Chapter 7. Network Desing<br>Operations -&gt; Chapter 12. Network Troubleshooting<br>OpenStack Administrator Guide<br>Networking<br>OpenStack High Availability Guide<br>OpenStack network nodes<br>OpenStack Security Guide<br>Networking<br>OpenStack Architecture Design Guide<br>Network focused<br>OpenStack API Complete Reference<br>Networking API v2.0 (CURRENT)<br>Networking API v2.0 extensions (CURRENT)<br>OpenStack End User Guide<br>OpenStack command-line clients -&gt; Create and manage networks<br>OpenStack Python SDK -&gt; Networking<br>OpenStack Command-Line Interface Reference<br>Networking service command-line client<br>Networking miscellaneous command-line client<br>Open source software for application development<br>OpenStack Developer Documentation<br>Networking service Developer Documentation(neutron)<br>BGP-MPLS VPN Networking service Plug-in(networking-bgpvpn)<br>Calico Networking service Plug-in(networking-calico)<br>L2GW Netwoking service Plug-in (networking-l2gw)<br>MidotNet Networking service Plug-in(networking-midonet)<br>OVN Networking service Plug-in(networking-ovn)<br>PowerVM Networking service Plug-in(networking-powervm)<br>Service Function Chaining Networking service Plug-in(networking-sfc)</li>
+</ul>
+<h2 id="华为"><a href="#华为" class="headerlink" title="华为"></a>华为</h2><ul>
+<li>华为 - 企业用户<br>华为 - 交换机<br>华为 - 路由器<br>华为 - 云计算<br>华为 - 网管&amp;SDN控制器<br>华为 - 软件定义网络（SDN）</li>
+</ul>
+<h2 id="RDO-Doc"><a href="#RDO-Doc" class="headerlink" title="RDO Doc"></a>RDO Doc</h2><ul>
+<li>trystack<br>Networking<br>OpenStack Networking in Too Much Detail<br>Using GRE Tenant Networks<br>Difference between Floating IP and private IP</li>
+</ul>
+<h2 id="Product-Documentation-for-Red-Hat-OpenStack-Platform"><a href="#Product-Documentation-for-Red-Hat-OpenStack-Platform" class="headerlink" title="Product Documentation for Red Hat OpenStack Platform"></a>Product Documentation for Red Hat OpenStack Platform</h2><h2 id="Mirantis-Resources"><a href="#Mirantis-Resources" class="headerlink" title="Mirantis Resources"></a>Mirantis Resources</h2><ul>
+<li>Mirantis OpenStack 7.0 NFVI Deployment Guide<br>Configuring Floating IP addresses for Networking in OpenStack Public and Private Clouds</li>
+</ul>
+<h2 id="Rakspace-doc"><a href="#Rakspace-doc" class="headerlink" title="Rakspace doc"></a>Rakspace doc</h2><p>Neutron Networking:详细 Neutron Routers and the L3 Agent</p>
+<h2 id="SDN-NFV"><a href="#SDN-NFV" class="headerlink" title="SDN/NFV"></a>SDN/NFV</h2><ul>
+<li>Open vSwitch<br>Open vSwitch Documentation<br>OpenFlow<br>OpenFlow Documents<br>OPEN NETWORKING FOUNDATION<br>OPEN DAYLIGHT<br>opnfv<br>Neutron-Service Function Chaining<br>vmware NSX<br>sdnlab<br>Dragonflow<br>tacker</li>
+</ul>
+<h2 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h2><ul>
+<li>《TCP/IP详解 卷一：协议》、《TCP/IP详解 卷二：实现》 by W.Richard Stenvens<br>《UNIX网络编程 卷一：套接字联网API》、《UNIX网络编程 卷二：进程间通信》 by W.Richard Stevens<br>《UNIX环境高级编程》by W.Richard Stevens<br>《Computer Networks (Fifth Edition)》by Andrew S. Tanenbaum<br>《Computer Systems A Programmmer’s Perspective (Secone Edition)》 by Randal E. Bryant<br>《The Hacker’s Guide to Python》<br>The Hitchhiker’s Guide to Python<br>《Learning OpenStack Networking (Neutron)》<br>《OpenStack设计与实现》<br>《OpenStack开源云王者归来》<br>《云计算与OpenStack 虚拟机Nova篇》</li>
+</ul>
+<h2 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h2><ul>
+<li>有云博客<br>Mirants Blog<br>RDO Community Blogs<br>RACKSPACE DEVELOPER BLOG<br>OpenStack Hacker养成指南<br>孔令贤<br>Blogs - Red Hat Customer Portal<br>开发人员必读openstack网络基础1:什么是L2、L3<br>一系列文章Neutron 理解(1)：Neutron所实现的虚拟化网络(How Neutron Virtualizes Network)<br>openstack(juno) 入门(总结篇)二十七:openstack排除故障及常见问题记录<br>Neutron理解(9):How Nova Implements Security Group and How Neutron Implements Virtual Firewall<br>OpenStack Neutron FWaaS学习(by quqi99)<br>OpenStack中的防火墙(by quqi99)<br>初探Openstack Neutron DVR<br>openstack的虚拟机网卡、网桥等（tap、qbr、qvb、qvo）mtu设置<br>云计算：openstack neutron(tap、qvb、qvo、qbr详解)<br>neutron的基本原理<br>OpenvSwitch完全使用手册<br>专注云计算-学习OpenStack<br>技术点详解—IPSec VPN基本原理<br>计算机网络基础知识总结<br>NAT技术介绍(转)<br>IPsec技术介绍(转)<br>IPSEC与SSL/TLS的比较（转）<br>IPSec VPN与SSL VPN 比较（转）<br>项目经理 VS 产品经理 （工作职责和要求）<br>OpenStack开发过程中常用Git操作场景（转）<br>centos 7.0 网卡配置及重命名教程（转）<br>CentOS 7.0，启用iptables防火墙(转)<br>centos7 VMware workstation 10 添加多网卡及重命名为ethx（eth0，eth1失败）(还想再添加网卡eth1???)<br>vmware centos7 clone mac地址导致 Failed to start LSB: Bring up/down networking.<br>centos7将网卡加入到网桥后， Missing config file br-ex，网卡无法正常启动问题解决<br>OpenStack中的LoadBalancer(负载均衡)功能使用实例<br>OpenStack Neutron之Load Balance<br>负载均衡之Haproxy配置详解（及httpd配置）<br>系统原理分析架构-二-CDN内容分发网络<br>系统原理分析架构-一-DNS负载均衡<br>系统原理分析架构-六-负载均衡（定义及介绍及LVS/Nginx/Haproxy比较）<br>深入理解openstack网络架构（1）<br>深入理解openstack网络架构（2） —- Basic Use Cases<br>深入理解openstack网络架构（3） —- 路由<br>深入理解openstack网络架构（4） —- 连接到publi network<br>网络虚拟化技术（一）：Linux网络虚拟化<br>网络虚拟化技术（二）：详细TUN/TAP MACVLAN MACVTAP<br>Open vSwitch工作原理<br>OpenStack neutron floating ips与iptables深入分析</li>
+</ul>
+<h2 id="Mailing-List-and-IRC"><a href="#Mailing-List-and-IRC" class="headerlink" title="Mailing List and IRC"></a>Mailing List and IRC</h2><ul>
+<li><a href="mailto:openstack-dev@lists.openstack.org" target="_blank" rel="noopener">openstack-dev@lists.openstack.org</a><br>/#openstack-neutron, /#openstack-meeting-3</li>
+</ul>
+<p><font color="red"> <strong>本文转载至：</strong> <a href="https://xiaofandh12.github.io/OpenStack-Nutron-Learning-Material" target="_blank" rel="noopener">https://xiaofandh12.github.io/OpenStack-Nutron-Learning-Material</a> </font><br><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/12/Kernel-What-even-is-a-container-namespaces-and-cgroups/" rel="next" title="What even is a container: namespaces and cgroups">
+                <i class="fa fa-chevron-left"></i> What even is a container: namespaces and cgroups
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/06/Network-利用-DevStack-来部署测试-OVN/" rel="prev" title="利用 DevStack 来部署测试 OVN (Open Virtual Network)">
+                利用 DevStack 来部署测试 OVN (Open Virtual Network) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/kk.jpg" alt="KK">
+          <p class="site-author-name" itemprop="name">KK</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#学习什么"><span class="nav-number">1.</span> <span class="nav-text">学习什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码"><span class="nav-number">2.</span> <span class="nav-text">源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文档"><span class="nav-number">3.</span> <span class="nav-text">文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenStack-Doc官网"><span class="nav-number">4.</span> <span class="nav-text">OpenStack Doc官网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#华为"><span class="nav-number">5.</span> <span class="nav-text">华为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDO-Doc"><span class="nav-number">6.</span> <span class="nav-text">RDO Doc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Product-Documentation-for-Red-Hat-OpenStack-Platform"><span class="nav-number">7.</span> <span class="nav-text">Product Documentation for Red Hat OpenStack Platform</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mirantis-Resources"><span class="nav-number">8.</span> <span class="nav-text">Mirantis Resources</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rakspace-doc"><span class="nav-number">9.</span> <span class="nav-text">Rakspace doc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SDN-NFV"><span class="nav-number">10.</span> <span class="nav-text">SDN/NFV</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#书籍"><span class="nav-number">11.</span> <span class="nav-text">书籍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#博客"><span class="nav-number">12.</span> <span class="nav-text">博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mailing-List-and-IRC"><span class="nav-number">13.</span> <span class="nav-text">Mailing List and IRC</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KK</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("H4eMW5qsm3YJlNjl5UoFD5v3-gzGzoHsz", "hjp02k1QkpoTpjWjqWQu8uaM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,964 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="IntroductionOpenssl 是一个很牛逼的工具，基本能搞定 PKI &amp;amp; HTTPS 证书相关的事情。这篇博文归类了一堆常用的命令，全部都是关于 key &amp;amp; csr &amp;amp; crt。 本文分成两部分，第一部分对 SSL/TLS 证书最核心的几个名词概念，第二部分则是一系列 openssl 常用命令。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="玩转 SSL 证书">
+<meta property="og:url" content="http://yakir-yang.github.io/2018/08/09/Tools-玩转-SSL-证书/index.html">
+<meta property="og:site_name" content="Kuankuan">
+<meta property="og:description" content="IntroductionOpenssl 是一个很牛逼的工具，基本能搞定 PKI &amp;amp; HTTPS 证书相关的事情。这篇博文归类了一堆常用的命令，全部都是关于 key &amp;amp; csr &amp;amp; crt。 本文分成两部分，第一部分对 SSL/TLS 证书最核心的几个名词概念，第二部分则是一系列 openssl 常用命令。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-05T08:50:33.165Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="玩转 SSL 证书">
+<meta name="twitter:description" content="IntroductionOpenssl 是一个很牛逼的工具，基本能搞定 PKI &amp;amp; HTTPS 证书相关的事情。这篇博文归类了一堆常用的命令，全部都是关于 key &amp;amp; csr &amp;amp; crt。 本文分成两部分，第一部分对 SSL/TLS 证书最核心的几个名词概念，第二部分则是一系列 openssl 常用命令。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yakir-yang.github.io/2018/08/09/Tools-玩转-SSL-证书/">
+
+
+
+
+
+  <title>玩转 SSL 证书 | Kuankuan</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kuankuan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">活捉一只程序猿。。。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yakir-yang.github.io/2018/08/09/Tools-玩转-SSL-证书/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="KK">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/kk.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kuankuan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">玩转 SSL 证书</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-09T23:41:26+08:00">
+                2018-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/08/09/Tools-玩转-SSL-证书/" class="leancloud_visitors" data-flag-title="玩转 SSL 证书">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Openssl 是一个很牛逼的工具，基本能搞定 PKI &amp; HTTPS 证书相关的事情。这篇博文归类了一堆常用的命令，全部都是关于 key &amp; csr &amp; crt。</p>
+<p>本文分成两部分，第一部分对 SSL/TLS 证书最核心的几个名词概念，第二部分则是一系列 openssl 常用命令。</p>
+<a id="more"></a>
+<hr>
+<h2 id="Key-CSR-CRT-CA-都是什么？"><a href="#Key-CSR-CRT-CA-都是什么？" class="headerlink" title="Key, CSR, CRT, CA 都是什么？"></a>Key, CSR, CRT, CA 都是什么？</h2><h3 id="什么是-KEY、CRT-？"><a href="#什么是-KEY、CRT-？" class="headerlink" title="什么是 KEY、CRT ？"></a>什么是 KEY、CRT ？</h3><p>KEY 是指密钥，通过一定长度的随机数，经过指定的加密算法处理，得到后的一个文本密钥文件。文件中既包含了 公钥 Publib Key &amp; Private key 两个部分。</p>
+<p>密钥文件包含 <em>PRIVATE KEY</em> 字符，格式如下 （例子中采用 RSA 算法加密）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">...............</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+<p>CRT 是指证书，其与 KEY 是一对的。KEY 密钥文件需要严格保密，而 CRT 证书文件却是公开的。以 PC 浏览器上网为例，浏览器通过向服务器 (如 <a href="https://github.com" target="_blank" rel="noopener">https://github.com</a>) 索取其 server.crt 证书，然后与浏览器内置的受信的 ca.crt 证书进行验证。如果校验成功，则浏览器会提示网站通过 https 连接是安全的。</p>
+<p>证书文件包含 CERTIFICATE 字符，格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">...............</span><br><span class="line">-----END CERTIFICATE-----</span><br></pre></td></tr></table></figure>
+<h3 id="什么是-CSR-？"><a href="#什么是-CSR-？" class="headerlink" title="什么是 CSR ？"></a>什么是 CSR ？</h3><p>如果你想要一个 CA (Certificate Authority) 认证机构为你颁发CRT 证书的话，那你需要先提供一个 CSR 请求文件。这个 CSR 请求文件中，会包含 Public Key 公钥，以及一些申请者信息 (DN <em>Distingusied Name</em>)。</p>
+<p>DN 信息中最最重要的部分，就是 <strong>Common Name (CN)</strong>，这个成员需要与后续安放 CRT 证书的服务器，其主机域名  Fully Qualified Domain Name (FQDN) 完全一致才行。<br>请求文件包含 CERTIFICATE REQUEST 字符，格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN CERTIFICATE REQUEST-----</span><br><span class="line">...............</span><br><span class="line">-----END CERTIFICATE REQUEST-----</span><br></pre></td></tr></table></figure>
+<h3 id="什么是-CA-？"><a href="#什么是-CA-？" class="headerlink" title="什么是 CA ？"></a>什么是 CA ？</h3><p>CA 全称为 Certificate Authotiry，证书授权中心，又被成为根证书。它类似于工商管理局，给公司企业颁发营业执照的。它主要有两大主要特性：</p>
+<ul>
+<li>CA 本身是受国际认可，受信任的</li>
+<li>CA 需要给它受信任的对象颁发证书</li>
+</ul>
+<p>证书长啥样？其实你的电脑中有一堆 CA 证书。你可以看一看：</p>
+<ul>
+<li>Chrome 浏览器：设置 -&gt; 高级 -&gt; 管理证书 -&gt; 授权中心</li>
+<li>Ubuntu: <code>/etc/ssl/certs</code></li>
+</ul>
+<h3 id="CA-的证书-ca-crt-与-SSL-Server-的证书-Server-crt-是什么关系呢？"><a href="#CA-的证书-ca-crt-与-SSL-Server-的证书-Server-crt-是什么关系呢？" class="headerlink" title="CA 的证书 ca.crt 与 SSL Server 的证书 Server.crt 是什么关系呢？"></a>CA 的证书 ca.crt 与 SSL Server 的证书 Server.crt 是什么关系呢？</h3><ol>
+<li>SSL Server 自己生成一个 密钥 KEY，内置包含 Private Key/Public Key， 私钥加密，公钥解密；</li>
+<li>Server 利用 密钥 生成一个请求文件 server.csr，请求文件中包含有 Server 的一些信息，如域名/申请者/公钥等； </li>
+<li>Server 将请求文件 server.csr 递交给 CA，然后 CA 对其验明正身后，将用 ca.key 和 server.csr 加密生成 server.crt  证书；</li>
+<li>由于 ca.key 和 ca.crt 是一对，于是以后客户端通过使用 ca.crt 就可以解密认证 server.crt 证书了。</li>
+</ol>
+<p>在实际应用中：如果 SSL Client 想要校验 SSL server。那么 SSL server 必须要将他的证书 server.crt 传给 client。然后 client 用 ca.crt 去校验 server.crt 的合法性。如果是一个钓鱼网站，那么 CA 是不会给他颁发合法 server.crt 证书的，这样 client 用 ca.crt 去校验，就会失败。比如浏览器作为一个 client，你想访问合法的淘宝网站(<a href="https://www.taobao.com/" target="_blank" rel="noopener">https://www.taobao.com</a>，结果不慎访问到 <a href="https://wwww.jiataobao.com/" target="_blank" rel="noopener">https://wwww.jiataobao.com</a> ，那么浏览器将会检验到这个假淘宝钓鱼网站的非法性，提醒用户不要继续访问！这样就可以保证了client的所有https访问都是安全的。</p>
+<h3 id="什么是-SSL-TLS-单向认证，双向认证-？"><a href="#什么是-SSL-TLS-单向认证，双向认证-？" class="headerlink" title="什么是 SSL/TLS 单向认证，双向认证 ？"></a>什么是 SSL/TLS 单向认证，双向认证 ？</h3><p><strong>单向认证</strong>，指的是只有一个对象校验对端的证书合法性。通常都是 client 来校验服务器的合法性。那么 client 需要一个 ca.crt，服务器需要 server.crt，server.key；</p>
+<p><strong>双向认证</strong>，指的是相互校验，服务器需要校验每个 client，client 也需要校验服务器。server 需要 server.key、server.crt、ca.crt；client 需要 client.key、client.crt、ca.crt；</p>
+<hr>
+<h2 id="Openssl-常用命令"><a href="#Openssl-常用命令" class="headerlink" title="Openssl 常用命令"></a>Openssl 常用命令</h2><h3 id="生成-CSRs-请求文件"><a href="#生成-CSRs-请求文件" class="headerlink" title="生成 CSRs 请求文件"></a>生成 CSRs 请求文件</h3><p>生成 CSR 请求文件的时候，需要填写 DN Distingusied Name 信息。openssl 默认是通过 shell 交互让用户输入，如下：</p>
+<blockquote>
+<p>Country Name (2 letter code) [AU]: <strong>US</strong></p>
+<p>State or Province Name (full name) [Some-State]: <strong>New York</strong></p>
+<p>Locality Name (eg, city) []: <strong>Brooklyn</strong></p>
+<p>Organization Name (eg, company) [Internet Widgits Pty Ltd]: <strong>Example Brooklyn Company</strong></p>
+<p>Organizational Unit Name (eg, section) []:<strong>Technology Division</strong></p>
+<p>Common Name (e.g. server FQDN or YOUR name) []: <strong>examplebrooklyn.com</strong></p>
+<p>Email Address []:</p>
+</blockquote>
+<p>如果你不想通过交互的方式，来填写这些额外的信息。那则可以使用 <code>-subj</code>  选项，如下：</p>
+<blockquote>
+<p> <code>-subj &quot;/C=US/ST=New York/L=Brooklyn/O=Example Brooklyn Company/CN=examplebrooklyn.com&quot;</code></p>
+</blockquote>
+<p>接下来的部分将会教大家如何生成与查看 CSR 文件。</p>
+<p><strong>产生一个新的 Private Key 和 CSR</strong></p>
+<p>如果你想使用 HTTPS (HTTP over TLS) 来加密你自己的 Apache HTTP or Nginx web server，并且你想通过 CA 来帮你解决 SSL 认证的问题。那采用以下命令，创建一个的密钥 (<code>domain.key</code>) 和一个对应的 CSR 请求文件 (<code>domain.csr</code>)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl req \</span><br><span class="line">        -newkey rsa:2048 -nodes -keyout domain.key \</span><br><span class="line">        -out domain.csr</span><br></pre></td></tr></table></figure>
+<p> 其中 <code>-newkey rsa:2048</code> 参数指定了密钥应该通过 RSA 算法产生，长度为 2048 bit。而 <code>-nodes</code> 选项指出产生的密钥不需要额外通过 password 进一步加密。<code>-new</code> 选项在这里是默认选项，既表明需要产生一个 CSR 请问文件。</p>
+<p><br></p>
+<p><strong>通过已有的 Private Key 来产生 CSR</strong></p>
+<p>当你已经有了一个 Private Key，而且你想通过这个 Key 来向 CA 请求证书的话。那采用以下命令，通过已有的密钥 (<code>domain.key</code>) 来产生 CSR 文件 (<code>domain.csr</code>)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl req \</span><br><span class="line">        -key domain.key \</span><br><span class="line">        -new -out domain.csr</span><br></pre></td></tr></table></figure>
+<p>填写完 Distingusied Name 信息后，将会得到 CSR 请求文件。其中 <code>-key</code> 选项是为了指明需要使用的 Existing Private Key (<code>domain.key</code>) ，而 <code>-new</code> 选项是为了表明需要产生一个 CSR 请求文件。</p>
+<blockquote>
+<p>如果产生 CSR 请求文件，所需的 Distingusied Name 的信息 以及 Private Key 密钥都不变的情况下，那最后得到的 CSR 文件内容也不会变化。不论产生多少次，或者在不同操作系统上，最后得到的 CSR 内容也完全一致。</p>
+</blockquote>
+<p><br></p>
+<p><strong>通过已有的 CRT 和 Private Key 来产生 CSR</strong></p>
+<p>当你想要找 CA 更新已有的 CRT 证书的时候，当时又找不到当初的 CSR 请求文件，那你就可以采用以下命令，从 CRT 证书中提取出所需要的 Distingusied Name 信息，与 Private Key 合成出 CSR 文件。</p>
+<p>以下命令通过已有的 Private Key (<code>domain.key</code>) 和 CRT 证书 (<code>domain.crt</code>)，来生成所需的 CSR 请求文件 (<code>domain.csr</code>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 \</span><br><span class="line">        -in domain.crt \</span><br><span class="line">        -signkey domain.key \</span><br><span class="line">        -x509toreq -out domain.csr</span><br></pre></td></tr></table></figure>
+<p>其中 <code>-x509toreq</code> 选项既表明，想通过一个 X509 的 CRT 证书来生成一个 CSR 请求文件。</p>
+<p><br></p>
+<h3 id="生成-CRTs-证书文件"><a href="#生成-CRTs-证书文件" class="headerlink" title="生成 CRTs 证书文件"></a>生成 CRTs 证书文件</h3><p>如果你想要使用 SSL 来保证安全的连接，但是又不想去找 public CA 机构购买证书的话，那你就可以自己来生成 Self-signed Root CA 证书。</p>
+<p>Self-signed 的证书也可以用来加密连接，只不过你的用户在访问你的网站的时候，将会提示出警告，说你的网站是不被信任的。因此当你开发的服务，并不需要提供给其他用户使用的时候 (e.g. non-production or non-public servers)，你才可以使用 Self-signed 形式的证书。</p>
+<p><strong>生成 Self-Signed 的证书</strong></p>
+<p>以下命令将会生成一个 2048-bits 的 Private Key (<code>self-ca.key</code>) 和 Self-Signed 的 CRT 证书 (<code>self-ca.crt</code>)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl req \</span><br><span class="line">        -newkey rsa:2048 -nodes -keyout self-ca.key \</span><br><span class="line">        -x509 -days 365 -out self-ca.crt</span><br></pre></td></tr></table></figure>
+<p>其中<code>-x509</code> 选项是为了告诉 <code>req</code>，生成一个 self-signed 的 X509 证书。而 <code>-days 365</code> 表明生成的证书有效时间为 365 天。这条命令执行过程中，会产生一个临时的 CSR 文件，但执行结束后就被删除了。</p>
+<p><br></p>
+<p><strong>通过已有的密钥 Private Key 来产生 Self-Signed 证书</strong></p>
+<p>以下命令是通过已有的 Private Key (<code>self-ca.key</code>)，来生成一个 Self-Signed 的 CRT 证书 (<code>self-ca.crt</code>)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl req \</span><br><span class="line">        -key self-ca.key</span><br><span class="line">        -new \</span><br><span class="line">        -x509 -days 365 -out self-ca.key</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<p><strong>通过已有的密钥 Private Key &amp; 请求文件 CSR 来产生 Self-Signed 证书</strong></p>
+<p>以下命令是通过已有的 Private Key (<code>self-ca.key</code>) 以及请求文件 (<code>self-ca.csr</code>)，来生成一个 Self-Signed 的 CRT 证书 (<code>self-ca.crt</code>)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 \</span><br><span class="line">       -signkey self-ca.key \</span><br><span class="line">       -in self-ca.csr \</span><br><span class="line">       -req -days 365 -out self-ca.crt</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<p><strong>通过已有的请求文件 CSR，通过 Self-Signed CA 来签发 CRT 证书</strong></p>
+<p>以下命令是通过已有的 Self-Signed CA 的证书 (<code>self-ca.crt</code>) 和密钥 (<code>self-ca.key</code>)，和请求文件 CSR (<code>domain.csr</code>) 来签发生成 CRT 证书 (<code>domain.crt</code>)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 \</span><br><span class="line">        -req \</span><br><span class="line">        -CAcreateserial -days 365 \</span><br><span class="line">        -CA self-ca.crt -CAkey self-ca.key \</span><br><span class="line">        -in nginx.csr -out nginx.crt</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="校验证书"><a href="#校验证书" class="headerlink" title="校验证书"></a>校验证书</h3><p>Openssl 默认生成的证书相关的文件都是 PEM 格式编码的，这部分通过 openssl 命令来解析这些文件。</p>
+<p><strong>查看请求文件 CSR</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -text -noout -verify -in domain.csr</span><br></pre></td></tr></table></figure>
+<p><strong>查看证书文件 CRT</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -text -noout -in domain.crt</span><br></pre></td></tr></table></figure>
+<p><strong>校验证书文件 CRT 合法性</strong></p>
+<p>以下命令来校验 <code>domain.crt</code> 证书，是否是由 <code>ca.crt</code> 证书签发出来的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl verify -verbose -CAFile ca.crt domain.crt</span><br></pre></td></tr></table></figure>
+<p><strong>校验 Private Key &amp; CSR &amp; CRT 三者是否是匹配</strong></p>
+<p>以下命令是分别提取出 Private Key (<code>domain.key</code>) &amp; CSR (<code>domain.csr</code>) &amp; CRT (<code>domain.crt</code>) 三者中包含的 Public Key，然后通过 md5 运算检查是否一致：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -noout -modulus -in domain.key | openssl md5</span><br><span class="line">openssl req -noout -modulus -in domain.csr | openssl md5</span><br><span class="line">openssl x509 -noout -modulus -in domain.crt | openssl md5</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="CRT-格式转换"><a href="#CRT-格式转换" class="headerlink" title="CRT 格式转换"></a>CRT 格式转换</h3><p>上面通过 X509 证书生成的证书，都是 ASCII PEM 格式进行编码的。然而证书也可以转换成其他格式，有些格式能够将 Private Key &amp; CSR &amp; CRT 三者全部打包在同一个文件中。</p>
+<h4 id="PEM-格式-vs-DER-格式"><a href="#PEM-格式-vs-DER-格式" class="headerlink" title="PEM 格式 vs DER 格式"></a>PEM 格式 vs DER 格式</h4><p>The DER format is typically used with Java.</p>
+<ul>
+<li>PEM 格式转成 DER 格式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 \</span><br><span class="line">        -in domain.crt \</span><br><span class="line">        -outform der -out domain.der</span><br></pre></td></tr></table></figure>
+<ul>
+<li>DER 格式转成 PEM 格式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 \</span><br><span class="line">        -inform der -in domain.der \</span><br><span class="line">        -out domain.crt</span><br></pre></td></tr></table></figure>
+<h4 id="PEM-格式-vs-PKCS7-格式"><a href="#PEM-格式-vs-PKCS7-格式" class="headerlink" title="PEM 格式 vs PKCS7 格式"></a>PEM 格式 vs PKCS7 格式</h4><blockquote>
+<p>PKCS7 files, also known as P7B, are typically used in Java Keystores and Microsoft IIS (Windows). They are ASCII files which can contain certificates and CA certificates.</p>
+</blockquote>
+<ul>
+<li>PEM 格式转成 PKCS7 格式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl crl2pkcs7 -nocrl \</span><br><span class="line">        -certfile domain.crt \</span><br><span class="line">        -certfile ca-chain.crt \</span><br><span class="line">        -out domain.p7b</span><br></pre></td></tr></table></figure>
+<ul>
+<li>PKCS7 格式转成 PEM 格式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs7 \</span><br><span class="line">        -in domain.p7b \</span><br><span class="line">        -print_certs -out domain.crt</span><br></pre></td></tr></table></figure>
+<p>如果你的 PKCS7 文件中包含了多个证书文件 (e.g. <code>domain.crt</code> &amp; <code>ca.crt</code>) ，那上面命令生成的 PEM 文件中将同时包含所有被打包的证书。</p>
+<h4 id="PEM-格式-vs-PKCS12-格式"><a href="#PEM-格式-vs-PKCS12-格式" class="headerlink" title="PEM 格式 vs PKCS12 格式"></a>PEM 格式 vs PKCS12 格式</h4><blockquote>
+<p>PKCS12 files, also known as PFX files, are typically used for importing and exporting certificate chains in Micrsoft IIS (Windows).</p>
+</blockquote>
+<ul>
+<li>PEM 格式转成 PKCS12 格式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 \</span><br><span class="line">        -inkey domain.key \</span><br><span class="line">        -in domain.crt \</span><br><span class="line">        -export -out domain.pfx</span><br></pre></td></tr></table></figure>
+<ul>
+<li>PKCS12 格式转成 PEM 格式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 \</span><br><span class="line">        -in domain.pfx \</span><br><span class="line">        -nodes -out domain.combined.crt</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="示例案例"><a href="#示例案例" class="headerlink" title="示例案例"></a>示例案例</h2><p>我自己搭建的 Nginx Web Server 想要提供 HTTPS 连接方式，但是觉得不想花钱去找知名 CA 证书中心 (e.g. AWS Certificate Manager) 购买证书。于是我想通过 Self-Signed 的方式来解决我的需求：</p>
+<ol>
+<li>先生成 Self-Signed CA 证书：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl req \</span><br><span class="line">        -newkey rsa:2048 -nodes -keyout self-ca.key \</span><br><span class="line">        -x509 -days 365 -out self-ca.crt</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>生成 Nginx Web Server 需要的 Private Key &amp; CSR ：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl req \</span><br><span class="line">        -newkey rsa:2048 -nodes -keyout nginx.key \</span><br><span class="line">        -out nginx.csr</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>利用 Self-Signed CA 证书，来签发业务所需要的 CRT 证书：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 \</span><br><span class="line">        -req -in nginx.csr \</span><br><span class="line">        -out nginx.crt \</span><br><span class="line">        -CAcreateserial -days 365 \</span><br><span class="line">        -CA self-ca.crt -CAkey self-ca.key</span><br></pre></td></tr></table></figure>
+<p>经过了上面 3 个步奏后，你就得到了 <code>self-ca.crt</code> &amp; <code>self-ca.key</code> ，以及由它签发出来的 <code>nginx.crt</code> &amp; <code>nginx.key</code> 。 </p>
+<p>如何使用上面 4 个文件：首先将 <code>nginx.crt</code> &amp; <code>nginx.key</code> 部署在 Nginx Web Server 上，然后将 <code>self-ca.crt</code> 发布给客户端即可。客户端就可以通过 <code>self-ca.crt</code> 与业务服务器建立 SSL/TLS 安全连接。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p> <a href="https://blog.csdn.net/espressif/article/details/78541410" target="_blank" rel="noopener">SSL-TLS 双向认证(一) – SSL-TLS工作原理</a></p>
+<p><a href="https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs" target="_blank" rel="noopener">OpenSSL Essentials: Working with SSL Certificates, Private Keys and CSRs</a></p>
+<font color="red"> <strong>转载请注明出处：</strong> <a href="http://kyang.cc/" target="_blank" rel="noopener">http://kyang.cc/</a> </font>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/05/Network-TCP性能指标：CPS-TPS-最大并发连接数/" rel="next" title="TCP性能指标：CPS,TPS,最大并发连接数">
+                <i class="fa fa-chevron-left"></i> TCP性能指标：CPS,TPS,最大并发连接数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/kk.jpg" alt="KK">
+          <p class="site-author-name" itemprop="name">KK</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Key-CSR-CRT-CA-都是什么？"><span class="nav-number">2.</span> <span class="nav-text">Key, CSR, CRT, CA 都是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-KEY、CRT-？"><span class="nav-number">2.1.</span> <span class="nav-text">什么是 KEY、CRT ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-CSR-？"><span class="nav-number">2.2.</span> <span class="nav-text">什么是 CSR ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-CA-？"><span class="nav-number">2.3.</span> <span class="nav-text">什么是 CA ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CA-的证书-ca-crt-与-SSL-Server-的证书-Server-crt-是什么关系呢？"><span class="nav-number">2.4.</span> <span class="nav-text">CA 的证书 ca.crt 与 SSL Server 的证书 Server.crt 是什么关系呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-SSL-TLS-单向认证，双向认证-？"><span class="nav-number">2.5.</span> <span class="nav-text">什么是 SSL/TLS 单向认证，双向认证 ？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Openssl-常用命令"><span class="nav-number">3.</span> <span class="nav-text">Openssl 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成-CSRs-请求文件"><span class="nav-number">3.1.</span> <span class="nav-text">生成 CSRs 请求文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成-CRTs-证书文件"><span class="nav-number">3.2.</span> <span class="nav-text">生成 CRTs 证书文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#校验证书"><span class="nav-number">3.3.</span> <span class="nav-text">校验证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CRT-格式转换"><span class="nav-number">3.4.</span> <span class="nav-text">CRT 格式转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PEM-格式-vs-DER-格式"><span class="nav-number">3.4.1.</span> <span class="nav-text">PEM 格式 vs DER 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PEM-格式-vs-PKCS7-格式"><span class="nav-number">3.4.2.</span> <span class="nav-text">PEM 格式 vs PKCS7 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PEM-格式-vs-PKCS12-格式"><span class="nav-number">3.4.3.</span> <span class="nav-text">PEM 格式 vs PKCS12 格式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例案例"><span class="nav-number">4.</span> <span class="nav-text">示例案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KK</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("H4eMW5qsm3YJlNjl5UoFD5v3-gzGzoHsz", "hjp02k1QkpoTpjWjqWQu8uaM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

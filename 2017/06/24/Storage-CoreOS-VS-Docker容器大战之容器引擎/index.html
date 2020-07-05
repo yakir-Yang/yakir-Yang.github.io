@@ -1,0 +1,834 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="在之前的文章中，我们从容器OS、容器引擎，基础架构的容器网络、存储、安全，容器运行必不可少的镜像仓库、编排，及运维关注的监控、日志，多维度关注并解读了容器生态圈中的各个玩家。总体而言，较为活跃的有Google主导的kubernetes生态，和Docker公司主导的docker生态。选择哪个技术流派从某种意义上，也决定了选择哪种生态，这也是当前使用容器的公司面临的一大难题。 本文将从容器引擎为切入点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoreOS VS Docker容器大战之容器引擎">
+<meta property="og:url" content="http://yakir-yang.github.io/2017/06/24/Storage-CoreOS-VS-Docker容器大战之容器引擎/index.html">
+<meta property="og:site_name" content="Kuankuan">
+<meta property="og:description" content="在之前的文章中，我们从容器OS、容器引擎，基础架构的容器网络、存储、安全，容器运行必不可少的镜像仓库、编排，及运维关注的监控、日志，多维度关注并解读了容器生态圈中的各个玩家。总体而言，较为活跃的有Google主导的kubernetes生态，和Docker公司主导的docker生态。选择哪个技术流派从某种意义上，也决定了选择哪种生态，这也是当前使用容器的公司面临的一大难题。 本文将从容器引擎为切入点">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yakir-yang.github.io/images/storages/kubernetes/docker-and-rkt-logos.png">
+<meta property="og:image" content="http://yakir-yang.github.io/images/storages/kubernetes/google-rkt-docker-battel.png">
+<meta property="og:updated_time" content="2020-07-05T08:50:33.164Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CoreOS VS Docker容器大战之容器引擎">
+<meta name="twitter:description" content="在之前的文章中，我们从容器OS、容器引擎，基础架构的容器网络、存储、安全，容器运行必不可少的镜像仓库、编排，及运维关注的监控、日志，多维度关注并解读了容器生态圈中的各个玩家。总体而言，较为活跃的有Google主导的kubernetes生态，和Docker公司主导的docker生态。选择哪个技术流派从某种意义上，也决定了选择哪种生态，这也是当前使用容器的公司面临的一大难题。 本文将从容器引擎为切入点">
+<meta name="twitter:image" content="http://yakir-yang.github.io/images/storages/kubernetes/docker-and-rkt-logos.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yakir-yang.github.io/2017/06/24/Storage-CoreOS-VS-Docker容器大战之容器引擎/">
+
+
+
+
+
+  <title>CoreOS VS Docker容器大战之容器引擎 | Kuankuan</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kuankuan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">活捉一只程序猿。。。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yakir-yang.github.io/2017/06/24/Storage-CoreOS-VS-Docker容器大战之容器引擎/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="KK">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/kk.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kuankuan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CoreOS VS Docker容器大战之容器引擎</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-24T16:25:44+08:00">
+                2017-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Storage/" itemprop="url" rel="index">
+                    <span itemprop="name">Storage</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/24/Storage-CoreOS-VS-Docker容器大战之容器引擎/" class="leancloud_visitors" data-flag-title="CoreOS VS Docker容器大战之容器引擎">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在之前的文章中，我们从容器OS、容器引擎，基础架构的容器网络、存储、安全，容器运行必不可少的镜像仓库、编排，及运维关注的监控、日志，多维度关注并解读了容器生态圈中的各个玩家。总体而言，较为活跃的有Google主导的kubernetes生态，和Docker公司主导的docker生态。选择哪个技术流派从某种意义上，也决定了选择哪种生态，这也是当前使用容器的公司面临的一大难题。</p>
+<p>本文将从容器引擎为切入点，说明这两大流派的历史、初衷和技术对比。</p>
+<h2 id="容器引擎玩家知多少"><a href="#容器引擎玩家知多少" class="headerlink" title="容器引擎玩家知多少"></a>容器引擎玩家知多少</h2><p>看到这个标题，你的表情可能是这样滴[惊愕]：纳尼？容器引擎不就是docker么？这时，<a href="https://www.kubernetes.org.cn/tags/coreos" target="_blank" rel="noopener">CoreOS</a>可能在后面默默地流泪，因为CoreOS的<a href="https://www.kubernetes.org.cn/tags/rkt" target="_blank" rel="noopener">rkt</a>也是玩家中的一员。虽然目前Docker的容器使用者相对更多，但rkt的发展也不可忽视。</p>
+<p><img src="/images/storages/kubernetes/docker-and-rkt-logos.png" alt="docker-and-rtk"></p>
+<h2 id="Rocket-与-Docker-引发的站队"><a href="#Rocket-与-Docker-引发的站队" class="headerlink" title="Rocket 与 Docker 引发的站队"></a>Rocket 与 Docker 引发的站队</h2><h3 id="前世"><a href="#前世" class="headerlink" title="前世"></a>前世</h3><p>这里让我们先来八一个卦，故事要从2013年开始说起。是的，<a href="https://www.kubernetes.org.cn/tags/docker" target="_blank" rel="noopener">Docker</a>公司在2013年发布了后来红遍大江南北的docker产品，一场新的技术带来一次新的革命，也带来新的市场机遇，CoreOS也是其中的一员，在容器生态圈中贴有标签：专为容器设计的操作系统CoreOS。作为互补，CoreOS+Docker曾经也是容器部署的明星套餐。值得一提的是，CoreOS为Docker的推广和源码社区都做出了巨大的贡献。</p>
+<p>然而好景不长，CoreOS认为Docker野心变大，与之前对Docker的期望是“一个简单的基础单元”不同，Docker也在通过开发或收购逐步完善容器云平台的各种组件，准备打造自己的生态圈，而这与CoreOS的布局有直接竞争关系。</p>
+<a id="more"></a>
+<p>2014年底，CoreOS的CEO Alex Polvi正式发布了CoreOS的开源容器引擎Rocket（简称rkt），作为一份正式的“分手”声明。当然，Docker的CEO Ben Golub也在官网作出了及时回应，总体意思表明没有违背初心，但这些都是应用户和贡献者的要求而扩展的，希望大家能一起继续并肩作战。</p>
+<h3 id="今生"><a href="#今生" class="headerlink" title="今生"></a>今生</h3><p>当然，我们都知道了后来的事实，作为容器生态圈的一员，Google坚定的站在了CoreOS一边，并将kubernetes支持rkt作为一个重要里程碑，Docker发布的docker 1.12版本开始集成了集群swarm的功能。作为相亲相爱的一家人，Google于2015年4月领投CoreOS 1200万美元，而CoreOS也发布了Tectonic，成为首个支持企业版本kubernetes的公司。<strong>从此，容器江湖分为两大阵营，Google派系和Docker派系。</strong></p>
+<p><img src="/images/storages/kubernetes/google-rkt-docker-battel.png" alt="img"></p>
+<p>而CoreOS除了Rocket和CoreOS外，也提供类似dockerhub的Quay的公共镜像服务，也逐步推出容器网络方案flannel、镜像安全扫描Clair、容器分布式存储系统Torus（2017年2月在对应github项目上表示停止开发）等优质的开源产品，包括早期的etcd，各个产品都和kubernetes有了很好的融合。</p>
+<h3 id="CNI-amp-CNCF"><a href="#CNI-amp-CNCF" class="headerlink" title="CNI &amp; CNCF"></a>CNI &amp; CNCF</h3><p>在两大派系的强烈要求（对撕）下，2015年6月，Docker不得已带头成立了OCI组织，旨在“制定并维护容器镜像格式和容器运行时的正式规范（“OCI Specifications”），以达到让一个兼容性的容器可以在所有主要的具有兼容性的操作系统和平台之间进行移植，没有人为的技术屏障的目标 （artificial technical barriers）”。在2016年8月所罗门和Kubernetes 的Kelsey Hightower的Twitter大战中，所罗门透露出对容器标准化消极的态度。</p>
+<p>有意思的是，同年（2015年）7月，Google联合Linux基金会成立了最近国内容器厂商陆续加入的CNCF组织，并将kubernetes作为首个编入CNCF管理体系的开源项目。旨在“构建 <strong>云原生</strong> 计算并促进其广泛使用，一种围绕着微服务、容器和应用动态调度的以基础设施架构为中心的方式”。陆续加入CNCF的项目有CoreDNS，Fluentd（<a href="https://www.kubernetes.org.cn/tags/%e6%97%a5%e5%bf%97" target="_blank" rel="noopener">日志</a>），gRPC, Linkerd（服务管理），openTracing，<a href="https://www.kubernetes.org.cn/tags/prometheus" target="_blank" rel="noopener">Prometheus</a>（<a href="https://www.kubernetes.org.cn/tags/%e7%9b%91%e6%8e%a7" target="_blank" rel="noopener">监控</a>）。</p>
+<font color="red"> <strong>本文转载至：<a href="https://www.kubernetes.org.cn/2250.html" target="_blank" rel="noopener">https://www.kubernetes.org.cn/2250.html</a></strong> </font>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/22/Tools-Linux-TC-常用命令/" rel="next" title="Linux TC 常用命令">
+                <i class="fa fa-chevron-left"></i> Linux TC 常用命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/24/Kubernetes-Kubernetes在微服务化游戏中的探索实践/" rel="prev" title="Kubernetes在微服务化游戏中的探索实践">
+                Kubernetes在微服务化游戏中的探索实践 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/kk.jpg" alt="KK">
+          <p class="site-author-name" itemprop="name">KK</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#容器引擎玩家知多少"><span class="nav-number">1.</span> <span class="nav-text">容器引擎玩家知多少</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rocket-与-Docker-引发的站队"><span class="nav-number">2.</span> <span class="nav-text">Rocket 与 Docker 引发的站队</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前世"><span class="nav-number">2.1.</span> <span class="nav-text">前世</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#今生"><span class="nav-number">2.2.</span> <span class="nav-text">今生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNI-amp-CNCF"><span class="nav-number">2.3.</span> <span class="nav-text">CNI &amp; CNCF</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KK</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("H4eMW5qsm3YJlNjl5UoFD5v3-gzGzoHsz", "hjp02k1QkpoTpjWjqWQu8uaM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,896 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="Openstack 概念我刚听说要去做 openstack 开发的时候，蛮激动的啊。虽然我不知道 openstack 是什么东西，但是我知道这个东西和云计算有关。云计算这东西，听着就高大上，各大互联网公司都有投人进去搞，所以大方向上是必须肯定的。于是我按捺不住了，想在自己的主机上部署 openstack，来体验下这个是什么东西。经过一顿折腾之后，终于在虚拟机里面用 devstack 把 opens">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Openstack 网络部分概念整理">
+<meta property="og:url" content="http://yakir-yang.github.io/2016/12/03/Network-Openstack-网络部分概念整理/index.html">
+<meta property="og:site_name" content="Kuankuan">
+<meta property="og:description" content="Openstack 概念我刚听说要去做 openstack 开发的时候，蛮激动的啊。虽然我不知道 openstack 是什么东西，但是我知道这个东西和云计算有关。云计算这东西，听着就高大上，各大互联网公司都有投人进去搞，所以大方向上是必须肯定的。于是我按捺不住了，想在自己的主机上部署 openstack，来体验下这个是什么东西。经过一顿折腾之后，终于在虚拟机里面用 devstack 把 opens">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-05T08:50:33.161Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Openstack 网络部分概念整理">
+<meta name="twitter:description" content="Openstack 概念我刚听说要去做 openstack 开发的时候，蛮激动的啊。虽然我不知道 openstack 是什么东西，但是我知道这个东西和云计算有关。云计算这东西，听着就高大上，各大互联网公司都有投人进去搞，所以大方向上是必须肯定的。于是我按捺不住了，想在自己的主机上部署 openstack，来体验下这个是什么东西。经过一顿折腾之后，终于在虚拟机里面用 devstack 把 opens">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yakir-yang.github.io/2016/12/03/Network-Openstack-网络部分概念整理/">
+
+
+
+
+
+  <title>Openstack 网络部分概念整理 | Kuankuan</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kuankuan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">活捉一只程序猿。。。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yakir-yang.github.io/2016/12/03/Network-Openstack-网络部分概念整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="KK">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/kk.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kuankuan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Openstack 网络部分概念整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-03T09:30:17+08:00">
+                2016-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Network/" itemprop="url" rel="index">
+                    <span itemprop="name">Network</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/12/03/Network-Openstack-网络部分概念整理/" class="leancloud_visitors" data-flag-title="Openstack 网络部分概念整理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Openstack-概念"><a href="#Openstack-概念" class="headerlink" title="Openstack 概念"></a>Openstack 概念</h2><p>我刚听说要去做 openstack 开发的时候，蛮激动的啊。虽然我不知道 openstack 是什么东西，但是我知道这个东西和云计算有关。云计算这东西，听着就高大上，各大互联网公司都有投人进去搞，所以大方向上是必须肯定的。于是我按捺不住了，想在自己的主机上部署 openstack，来体验下这个是什么东西。经过一顿折腾之后，终于在虚拟机里面用 devstack 把 openstack 给部署出来了（部署过程中，最坑的就是国内的防火墙）。</p>
+<p>部署的过程，其实就是把一堆 python 包安装到主机系统的过程。openstack 有一个 python 包叫做 Dashboard，这个东西提供了一个 Web 界面，从那里我真正体验到了 openstack 是个啥。在 Dashboard 上创建一台虚拟机的过程蛮有趣的，这个过程涉及到的步骤，很多都和现实中安装电脑很像。</p>
+<table>
+<thead>
+<tr>
+<th>Openstack</th>
+<th>Real Life</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>创建 ubuntu 镜像</td>
+<td>使用 Ultraiso 刻录好一个 ubuntu 系统 的 U 盘</td>
+</tr>
+<tr>
+<td>创建 provider 网络</td>
+<td>叫电信的来给家里开通网络</td>
+</tr>
+<tr>
+<td>创建 Instance 主机</td>
+<td>买了一台主机，并用刚刚的 U 盘给它装好 Ubuntu 系统</td>
+</tr>
+<tr>
+<td>启动 Instance 主机</td>
+<td>把电信的网口插到主机网卡上</td>
+</tr>
+</tbody>
+</table>
+<p>我在 Dashboard 创建了两台 Instance 主机，两台主机跑的好好的。就目前来说，这个效果和 VMware Workstation 软件就很像了，可以在一台物理机上，跑多虚拟主机。只不过 VMware Workstation 软件面向的是单台物理机，而 openstack 却可以 <strong>面对物理机集群</strong> 进行管理和虚拟化。当成百上千的物理机被 openstack 管理着，而终端使用用户只需要面对唯一的一个 Dashboard 界面，这个时候私有云的概念就体现出来了。</p>
+<p>有了感性的认识后，再去 <a href="https://www.openstack.org/" target="_blank" rel="noopener">openstack</a> 官网是什么定义自己的：</p>
+<blockquote>
+<p><strong>Open source software for creating private and public clouds.</strong></p>
+<p>OpenStack software controls large pools of <strong>compute</strong>, <strong>storage</strong>, and <strong>networking resources</strong> throughout a datacenter, managed through a dashboard or via the OpenStack API. OpenStack works with popular enterprise and open source technologies making it ideal for heterogeneous infrastructure.</p>
+</blockquote>
+<blockquote>
+<p>Hundreds of the world’s largest brands rely on OpenStack to run their businesses every day, reducing costs and helping them move faster. OpenStack has a strong ecosystem, and users seeking commercial support can choose from different OpenStack-powered products and services in the Marketplace.</p>
+</blockquote>
+<blockquote>
+<p>The software is built by a thriving community of developers, in collaboration with users, and is designed in the open at our Summits.</p>
+</blockquote>
+<p>OpenStack 软件控制整个数据中心的大型计算，存储和网络资源，用户可以通过 Dashboard 或 OpenStack API 进行管理。就我理解，Openstack 更像是一个操作系统，一个强大的云计算操作系统。</p>
+<a id="more"></a>
+<hr>
+<h2 id="Openstack-网络概念"><a href="#Openstack-网络概念" class="headerlink" title="Openstack 网络概念"></a>Openstack 网络概念</h2><p>我前面通过 Dashboard 创建的两个 Instance 虚拟机，它们之间是可以互相 ping 通的，因为它们两是处于同一个二层网络的，都是直接链接到 Provider 网络。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">｜  VM1  |              |  VM2  |</span><br><span class="line">｜-------|              |-------|</span><br><span class="line">    |                      |</span><br><span class="line">    | Eth(172.24.4.2)      | Eth(172.24.4.3)</span><br><span class="line">____|______________________|___________</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - Provider (172.24.4.0/24)</span><br></pre></td></tr></table></figure>
+<p>上面的拓扑其实已经涵盖了 openstack 中比较核心的三个网络概念：<strong>Network</strong>，<strong>Subnet</strong>, <strong>Port</strong> 。我们把这三个概念和上面的网络拓扑映射一下：</p>
+<ul>
+<li>“Provider” 这个名字，对应的就是 openstack 的 <strong>Network</strong></li>
+<li>“172.24.4.0/24” 这个 IP 地址池，对应的就是 openstack 的 <strong>Subnet</strong></li>
+<li>“Eth(172.24.4.2)” 这个 Instance 网卡，对应的就是 openstack 的 <strong>Port</strong></li>
+</ul>
+<p>其实我们还可以让 VM1 和 VM2 不在一个二层网络上，只不过这个时候，就需要引入 openstack 网络的另一核心概念 <strong>Router</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Network Topology with Router:</span><br><span class="line"></span><br><span class="line">                        |  VM2  |</span><br><span class="line">                        |-------|</span><br><span class="line">                            |</span><br><span class="line">                            | Eth(10.0.0.2)</span><br><span class="line">                     _______|_______</span><br><span class="line">                     - - - - - - - - Private (10.0.0.0/24)</span><br><span class="line">                            |</span><br><span class="line">                            | If(10.0.0.1)</span><br><span class="line">                            |</span><br><span class="line"> |  VM1  |             |  Router1 |</span><br><span class="line"> |-------|             |----------|</span><br><span class="line">    |                       |</span><br><span class="line">    | Eth(172.24.4.2)       | Gw(172.24.4.3)</span><br><span class="line">____|_______________________|__________</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - Provider (172.24.4.0/24)</span><br></pre></td></tr></table></figure>
+<p>这样一来 VM1 和 VM2 就不在同一个二层网络了，两个 Instance 虚拟机的网络环境也就实现了隔离。从拓扑上可以看出，这里多出了三样新部件：</p>
+<ul>
+<li><strong>Router</strong>: 也就是拓扑中的 Router1</li>
+<li><strong>Router-Gateway</strong>: 也就是拓扑中的 Gw(172.24.4.3)，主要是为了 Router1 后面的虚拟机访问 Provider 网络。</li>
+<li><strong>Router-Interface</strong>: 也就是拓扑中的 If(10.0.0.1)，让 Router1 作为 Private 网络的 L3 网关。</li>
+</ul>
+<p>上面两个网络拓扑，就覆盖 openstack 网络的核心概念了，当然仅仅有以上四个核心概念，是没办法适应实际 Data Center 复杂的网络拓扑需求的，为此有了其他虚拟网络概念如：<strong>FloatingIP</strong>, <strong>SecurityGroup</strong>, <strong>ServiceFunctionChain</strong> 等。</p>
+<hr>
+<h2 id="Openstack-网络组件介绍"><a href="#Openstack-网络组件介绍" class="headerlink" title="Openstack 网络组件介绍"></a>Openstack 网络组件介绍</h2><p>Openstack 包含了非常多的子项目，目前几个核心的子项目如下：</p>
+<ul>
+<li>Nova: 提供 compute 计算能力（虚拟机）</li>
+<li>Neutron: 提供 networking 网络连接能力</li>
+<li>Glance: 提供 image 镜像存储能力</li>
+<li>Keystone: 提供 identity 身份认证能力</li>
+<li>Cinder / Swift: 提供 storage 存储能力</li>
+</ul>
+<p>网络虚拟化是块发展比较快的领域，到目前 Neutron 已经很好的支持 L2, L3, HA, SecurityGroup, LBaas, FWaas, VPNaas, DVR 等等。只不过我看过一些文章，里面说到 Neutron 的发展方向应该是，专注于 API 标准的定制。让各个网络功能从 Neutron 中剥离出去，让各个网络设备商的 SDN Controller Plugin 去聚焦和实现这部分功能。Neutron 需要设计出一组良好的北向接口规范，让自己成为一个纯粹的 API Server（这些观点的正确性，我也不确定，只不过换个高度看事情，未尝不是件好事）。</p>
+<p>Neutron 里面有两个框架比较有趣， ML2 框架和 Extension Plugin框架 。ML2 是对 L2 网络功能的一次抽象，这让不同的 L2 虚拟化技术（OVS, LinuxBridge, OpenvSwitch…）只需统一对接到 ML2 即可。而 Extension Plugin 为一些在开发中的 SDNControler or NetworkFunction，能够方便的对接到 Neutron 中，进行部署测试，待起孵化成熟之后，再合并到 Neutron 项目中。我在主机上部署的 Openstack (Neutron + OVN)，其实就是充分利用了 Neutron ML2 和 ExtensionPlugin 才得以实现，从这点上也看出了 Neutron 的灵活性非常强大。</p>
+<p>上面简单介绍了 Neutron，现在说说 OVN (Open Virtual Network for vSwitch)，它是 OpenvSwitch 团队自己孵化 OVS 的子项目，目的是为了让 OVS 更加友好的支持虚拟网络，容我引用 IBM 的一篇博文的精彩观点：</p>
+<blockquote>
+<p>Pick up from <a href="http://www.ibm.com/developerworks/cn/cloud/library/1603-ovn-ovs-openvswitch/index.html" target="_blank" rel="noopener">如何借助 OVN 来提高 OVS 在云计算环境中的性能</a></p>
+<p>众所周知，OpenvSwitch 以其丰富的功能和不错的性能，已经成为 Openstack 部署中最受欢迎的虚拟交换机。由于 Openstack Neutron 的架构引入了一些性能问题，比如 neutron-server 要与非常多的 agent 通信，RPC 就是一个性能瓶颈，还有 neutron 里面用到非常多的 namespace，namespace 资源有限而且系统开销比较大，这也是一个性能瓶颈。OVS 社区觉得从长远来看，Neutron 应该让一个其它的项目来做虚拟网络的控制平面，Neutron 只需要提供 API 的处理，于是 OVS 社区推出了 OVN（Open Virtual Switch）这个项目，OVN 是 OVS 的控制平面，它给 OVS 增加了对虚拟网络的原生支持，大大提高了 OVS 在实际应用环境中的性能和规模。</p>
+</blockquote>
+<p>如果想用 OVN 和 Neutron 进行集成使用，还需要 Networking-ovn Plugin 的帮助。Networking-ovn 是个比较简单的 Plugin，它的工作是将 Neutron 中对虚拟网络的定义，翻译到 OVN 对虚拟网络的定义中去。它的简单，来源于优美的 Neutron API 接口设计，和精简的 OVN 北向数据库表设计。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">|      OPENSTACK      |</span><br><span class="line">|                     |</span><br><span class="line">|      (neutron)      |  API Server</span><br><span class="line">-----------------------</span><br><span class="line">         |  |</span><br><span class="line">         v  v</span><br><span class="line">---&gt; networing-ovn &lt;---  Service and Plugin</span><br><span class="line">         |  |</span><br><span class="line">         v  v</span><br><span class="line">     |----------|</span><br><span class="line">     |   OVN    |        SDN Controller for OpenvSwitch</span><br><span class="line">     |----------|</span><br><span class="line">          |</span><br><span class="line">          v</span><br><span class="line">----------------------</span><br><span class="line">|    OpenvSwitch     |   DataPlan support for Virtual Networking Function</span><br><span class="line">|                    |</span><br></pre></td></tr></table></figure>
+<p><font color="red"> <strong>转载请注明出处：</strong> <a href="http://kyang.cc/" target="_blank" rel="noopener">http://kyang.cc/</a> </font><br><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/06/Network-利用-DevStack-来部署测试-OVN/" rel="next" title="利用 DevStack 来部署测试 OVN (Open Virtual Network)">
+                <i class="fa fa-chevron-left"></i> 利用 DevStack 来部署测试 OVN (Open Virtual Network)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/05/Storage-AT-T-CTO：容器是网络架构的关键/" rel="prev" title="AT&T CTO：容器是网络架构的关键">
+                AT&T CTO：容器是网络架构的关键 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/kk.jpg" alt="KK">
+          <p class="site-author-name" itemprop="name">KK</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Openstack-概念"><span class="nav-number">1.</span> <span class="nav-text">Openstack 概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Openstack-网络概念"><span class="nav-number">2.</span> <span class="nav-text">Openstack 网络概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Openstack-网络组件介绍"><span class="nav-number">3.</span> <span class="nav-text">Openstack 网络组件介绍</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KK</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("H4eMW5qsm3YJlNjl5UoFD5v3-gzGzoHsz", "hjp02k1QkpoTpjWjqWQu8uaM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

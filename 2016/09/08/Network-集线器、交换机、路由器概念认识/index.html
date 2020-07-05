@@ -1,0 +1,866 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="号称网络硬件三剑客的 集线器（Hub）、交换机（Switch）与路由器（Router）  一直都是网络界的活跃分子，但让很多初入网络之门的菜鸟恼火的是，它们三者不仅外观相似，而且经常呆在一起，要想分清谁是谁，感觉有点难!就让我们一起来看看它们之间有什么区别和联系吧! 三剑客的工作原理一、集线器1. 什么是集线器在认识集线器之前，必须先了解一下中继器。在我们接触到的网络中，最简单的就是两台电脑通过两">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集线器、交换机、路由器 概念认识">
+<meta property="og:url" content="http://yakir-yang.github.io/2016/09/08/Network-集线器、交换机、路由器概念认识/index.html">
+<meta property="og:site_name" content="Kuankuan">
+<meta property="og:description" content="号称网络硬件三剑客的 集线器（Hub）、交换机（Switch）与路由器（Router）  一直都是网络界的活跃分子，但让很多初入网络之门的菜鸟恼火的是，它们三者不仅外观相似，而且经常呆在一起，要想分清谁是谁，感觉有点难!就让我们一起来看看它们之间有什么区别和联系吧! 三剑客的工作原理一、集线器1. 什么是集线器在认识集线器之前，必须先了解一下中继器。在我们接触到的网络中，最简单的就是两台电脑通过两">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-05T08:50:33.164Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="集线器、交换机、路由器 概念认识">
+<meta name="twitter:description" content="号称网络硬件三剑客的 集线器（Hub）、交换机（Switch）与路由器（Router）  一直都是网络界的活跃分子，但让很多初入网络之门的菜鸟恼火的是，它们三者不仅外观相似，而且经常呆在一起，要想分清谁是谁，感觉有点难!就让我们一起来看看它们之间有什么区别和联系吧! 三剑客的工作原理一、集线器1. 什么是集线器在认识集线器之前，必须先了解一下中继器。在我们接触到的网络中，最简单的就是两台电脑通过两">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yakir-yang.github.io/2016/09/08/Network-集线器、交换机、路由器概念认识/">
+
+
+
+
+
+  <title>集线器、交换机、路由器 概念认识 | Kuankuan</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kuankuan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">活捉一只程序猿。。。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yakir-yang.github.io/2016/09/08/Network-集线器、交换机、路由器概念认识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="KK">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/kk.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kuankuan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">集线器、交换机、路由器 概念认识</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-08T22:34:55+08:00">
+                2016-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Network/" itemprop="url" rel="index">
+                    <span itemprop="name">Network</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/09/08/Network-集线器、交换机、路由器概念认识/" class="leancloud_visitors" data-flag-title="集线器、交换机、路由器 概念认识">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>号称网络硬件三剑客的 <strong>集线器（Hub）、交换机（Switch）与路由器（Router）</strong>  一直都是网络界的活跃分子，但让很多初入网络之门的菜鸟恼火的是，它们三者不仅外观相似，而且经常呆在一起，要想分清谁是谁，感觉有点难!就让我们一起来看看它们之间有什么区别和联系吧!</p>
+<h2 id="三剑客的工作原理"><a href="#三剑客的工作原理" class="headerlink" title="三剑客的工作原理"></a>三剑客的工作原理</h2><h2 id="一、集线器"><a href="#一、集线器" class="headerlink" title="一、集线器"></a>一、集线器</h2><h3 id="1-什么是集线器"><a href="#1-什么是集线器" class="headerlink" title="1. 什么是集线器"></a>1. 什么是集线器</h3><p>在认识集线器之前，必须先了解一下中继器。在我们接触到的网络中，最简单的就是两台电脑通过两块网卡构成 <strong>双机互连</strong>，两块网卡之间一般是由非屏蔽双绞线来充当信号线的。由于双绞线在传输信号时信号功率会逐渐衰减，当信号衰减到一定程度时将造成信号失真，因此在保证信号质量的前提下，双绞线的最大传输距离为 100 米。当两台电脑之间的距离超过 100 米时，为了实现双机互连，人们便在这两台电脑之间安装一个 <strong>中继器</strong>，它的作用就是将已经衰减得不完整的信号经过整理，重新产生出完整的信号再继续传送。 中继器就是普通集线器的前身，集线器实际就是一种多端口的中继器。集线器一般有4、8、16、24、32等数量的 RJ45 接口，通过这些接口，集线器便能为相应数量的电脑完成 “中继” 功能。由于它在网络中处于一种 “中心” 位置，因此集线器也叫做 <strong>Hub</strong> 。</p>
+<a id="more"></a>
+<h3 id="2-集线器的工作原理"><a href="#2-集线器的工作原理" class="headerlink" title="2. 集线器的工作原理"></a>2. 集线器的工作原理</h3><p>集线器的工作原理很简单，以图2为例，图中是一个具备8个端口的集线器，共连接了8台电脑。集线器处于网络的“中心”，通过集线器对信号进行转发，8台电脑之间可以互连互通。具体通信过程是这样的：假如 计算机1 要将一条信息发送给 计算机8，当 计算机1 的网卡将信息通过双绞线送到集线器上时，集线器并不会直接将信息送给 计算机8，它会将信息进行 “广播” – 将信息同时发送给8个端口，当8个端口上的计算机接收到这条广播信息时，会对信息进行检查，如果发现该信息是发给自己的，则接收，否则不予理睬。由于该信息是 计算机1 发给 计算机8 的，因此最终 计算机8 会接收该信息，而其它7台电脑看完信息后，会因为信息不是自己的而不接收该信息。</p>
+<h3 id="3-集线器的特点"><a href="#3-集线器的特点" class="headerlink" title="3. 集线器的特点"></a>3. 集线器的特点</h3><h4 id="3-1-共享带宽"><a href="#3-1-共享带宽" class="headerlink" title="3.1 共享带宽"></a>3.1 共享带宽</h4><p>集线器的带宽是指它通信时能够达到的最大速度。目前市面上用于中小型局域网的集线器主要有10Mbps、100Mbps 和 10/100Mbps 自适应三种。</p>
+<p>10Mb带宽的集线器的传输速度最大为10Mbps，即使与它连接的计算机使用的是100Mbps网卡，在传输数据时速度仍然只有10Mbps。10/100Mbps自适应集线器能够根据与端口相连的网卡速度自动调整带宽，当与10Mbps的网卡相连时，其带宽为10Mb；与100Mbps的网卡相连时，其带宽为100Mb，因此这种集线器也叫做 <strong>双速集线器</strong>。</p>
+<p>集线器是一种 “共享” 设备，集线器本身不能识别目的地址，当同一局域网内的 A主机 给 B主机 传输数据时，数据包在以集线器为架构的网络上是以广播方式传输的，由每一台终端通过验证数据包头的地址信息来确定是否接收。</p>
+<p>由于集线器在一个时钟周期中只能传输一组信息，如果一台集线器连接的机器数目较多，并且多台机器经常需要同时通信时，将导致集线器的工作效率很差，如发生信息堵塞、碰撞等。</p>
+<p>为什么会这样呢?打给比方，以图2为例，当 计算机1 正在通过集线器发信息给 计算机8 时，如果此时 计算机2 也想通过集线器将信息发给 计算机7，当它试图与集线器联系时，却发现集线器正在忙 计算机1 的事情，于是 计算机2 便会 “带” 着数据站在集线器的面前等待，并时时要求集线器停下 计算机1 的活来帮自己干。如果 计算机2 成功地将集线器“抢”过来了（由于集线器是“共享”的，因此很容易抢到手），此时正处于传输状态的计算机1的数据便会停止，于是计算机1也会去“抢”集线器……</p>
+<p>可见，集线器上每个端口的真实速度除了与集线器的带宽有关外，与同时工作的设备数量也有关。比如说一个带宽为10Mb的集线器上连接了8台计算机，当这8台计算机同时工作时，则每台计算机真正所拥有的带宽是<code>10/8=1.25Mb</code>!</p>
+<h4 id="3-2-半双工"><a href="#3-2-半双工" class="headerlink" title="3.2 半双工"></a>3.2 半双工</h4><p>先说说全双工：两台设备在发送和接收数据时，通信双方都能在同一时刻进行发送或接收操作，这样的传送方式就是全双工。而处于半双工传送方式的设备，当其中一台设备在发送数据时，另一台只能接收，而不能同时将自己的数据发送出去。</p>
+<p>由于集线器采取的是 “广播” 传输信息的方式，因此集线器传送数据时只能工作在半双工状态下，比如说 计算机1 与 计算机8 需要相互传送一些数据，当计算机1在发送数据时，计算机8 只能接收 计算机1 发过来的数据，只有等 计算机1 停止发送并做好了接收准备，它才能将自己的信息发送给 计算机1 或其它计算机。</p>
+<hr>
+<h2 id="二、交换机"><a href="#二、交换机" class="headerlink" title="二、交换机"></a>二、交换机</h2><h3 id="1-什么是交换机"><a href="#1-什么是交换机" class="headerlink" title="1. 什么是交换机"></a>1. 什么是交换机</h3><p>交换机也叫交换式集线器，它通过对信息进行重新生成，并经过内部处理后转发至指定端口，具备自动寻址能力和交换作用，由于交换机根据所传递信息包的目的地址，将每一信息包独立地从源端口送至目的端口，避免了和其他端口发生碰撞。广义的交换机就是一种在通信系统中完成信息交换功能的设备。</p>
+<h3 id="2-交换机的工作原理"><a href="#2-交换机的工作原理" class="headerlink" title="2. 交换机的工作原理"></a>2. 交换机的工作原理</h3><p>在计算机网络系统中，交换机是针对共享工作模式的弱点而推出的。集线器是采用共享工作模式的代表，如果把集线器比作一个邮递员，那么这个邮递员是个不认识字的“傻瓜”–要他去送信，他不知道直接根据信件上的地址将信件送给收信人，只会拿着信分发给所有的人，然后让接收的人根据地址信息来判断是不是自己的!而交换机则是一个“聪明”的邮递员–交换机拥有一条高带宽的背部总线和内部交换矩阵。交换机的所有的端口都挂接在这条背部总线上，当控制电路收到数据包以后，处理端口会查找内存中的地址对照表以确定目的MAC（网卡的硬件地址）的NIC（网卡）挂接在哪个端口上，通过内部交换矩阵迅速将数据包传送到目的端口。目的MAC若不存在，交换机才广播到所有的端口，接收端口回应后交换机会“学习”新的地址，并把它添加入内部地址表中。</p>
+<p>可见，交换机在收到某个网卡发过来的“信件”时，会根据上面的地址信息，以及自己掌握的“常住居民户口簿”快速将信件送到收信人的手中。万一收信人的地址不在“户口簿”上，交换机才会像集线器一样将信分发给所有的人，然后从中找到收信人。而找到收信人之后，交换机会立刻将这个人的信息登记到“户口簿”上，这样以后再为该客户服务时，就可以迅速将信件送达了。</p>
+<h3 id="3-交换机的性能特点"><a href="#3-交换机的性能特点" class="headerlink" title="3. 交换机的性能特点"></a>3. 交换机的性能特点</h3><h4 id="3-1-独享带宽"><a href="#3-1-独享带宽" class="headerlink" title="3.1 独享带宽"></a>3.1 独享带宽</h4><p>由于交换机能够智能化地根据地址信息将数据快速送到目的地，因此它不会像集线器那样在传输数据时“打扰”那些非收信人。这样一来，交换机在同一时刻可进行多个端口组之间的数据传输。并且每个端口都可视为是独立的网段，相互通信的双方独自享有全部的带宽，无须同其他设备竞争使用。比如说，当A主机向D主机发送数据时，B主机可同时向C主机发送数据，而且这两个传输都享有网络的全部带宽–假设此时它们使用的是10Mb的交换机，那么该交换机此时的总流通量就等于2×10Mb=20Mb。</p>
+<h4 id="3-2-全双工"><a href="#3-2-全双工" class="headerlink" title="3.2 全双工"></a>3.2 全双工</h4><p>当交换机上的两个端口在通信时，由于它们之间的通道是相对独立的，因此它们可以实现全双工通信。</p>
+<hr>
+<h2 id="三、集线器与交换机的区别"><a href="#三、集线器与交换机的区别" class="headerlink" title="三、集线器与交换机的区别"></a>三、集线器与交换机的区别</h2><p>从两者的工作原理来看，交换机和集线器是有很大差别的。首先，从OSI体系结构来看，集线器属于OSI的第一层物理层设备，而交换机属于OSI的第二层数据链路层设备。</p>
+<p>其次，从工作方式来看，集线器采用一种“广播”模式，因此很容易产生“广播风暴”，当网络规模较大时性能会受到很大的影响。而当交换机工作的时候，只有发出请求的端口和目的端口之间相互响应而不影响其他端口，因此交换机能够在一定程度上隔离冲突域和有效抑制“广播风暴”的产生。</p>
+<p>另外，从带宽来看，集线器不管有多少个端口，所有端口都是共享一条带宽，在同一时刻只能有两个端口传送数据，其他端口只能等待，同时集线器只能工作在半双工模式下；而对于交换机而言，每个端口都有一条独占的带宽，当两个端口工作时并不影响其他端口的工作，同时交换机不但可以工作在半双工模式下而且可以工作在全双工模式下。</p>
+<p>如果用最简单的语言叙述交换机与集线器的区别，那就应该是智能与非智能的区别。集线器说白了只是连接多个计算机的网络设备，它只能起到信号放大和传输的作用，不能对信号中的碎片进行处理，所以在传输过程中容易出错。而交换机则可以看作为是一种智能型的集线器，它除了拥有集线器的所有特性外，还具有自动寻址、交换、处理的功能。并且在数据传递过程中，发送端与接受端独立工作，不与其它端口发生关系，从而达到防止数据丢失和提高吞吐量的目的。</p>
+<hr>
+<h2 id="四、路由器"><a href="#四、路由器" class="headerlink" title="四、路由器"></a>四、路由器</h2><h3 id="1-路由器的作用"><a href="#1-路由器的作用" class="headerlink" title="1. 路由器的作用"></a>1. 路由器的作用</h3><p>通过集线器或交换机，我们可以将很多台电脑组成一个比较大的局域网（图3），但是当机器的数量达到一定数目时，问题也就来了：对于用集线器构成的局域网而言，由于采用“广播”工作模式，当网络规模较大时，信息在传输过程中出现碰撞、堵塞的情况越来越严重，即使是交换机，这种情况也同样存在。其次，这种局域网不安全，也不利于管理。</p>
+<p>为了解决这些问题，人们便将一个较大的网络划分为一个个小的子网、网段，或者直接将它们划分为多个VLAN（即虚拟局域网），在一个VLAN内，一台主机发出的信息只能发送到具有相同VLAN号的其他主机，其他VLAN的成员收不到这些信息或广播帧。采用VLAN划分网络后，可有效地抑制网络上的广播风暴，增加网络的安全性，使管理控制集中（图4）。</p>
+<p>既然是局域网，万一分别处于不同VLAN的主机需要互相通信时该怎么办呢?这时候就得通过路由器（Router，转发者）来帮忙了。路由器可以将处于不同子网、网段、VLAN的电脑连接起来，让它们自由通信。另外，我们都知道目前的网络有很多种结构类型，且不同网络所使用的协议、速度也不尽相同。当两个不同结构的网络需要互连时，也可以通过路由器来实现。路由器可以使两个相似或不同体系结构的局域网段连接到一起，以构成一个更大的局域网或一个广域网。</p>
+<p>可见，路由器是一种连接多个网络或网段的网络设备，它能将不同网络、网段或VLAN之间的数据信息进行“翻译”，以使它们能够相互“读”懂对方的数据，从而构成一个更大的网络。</p>
+<h3 id="2-路由器的工作原理"><a href="#2-路由器的工作原理" class="headerlink" title="2. 路由器的工作原理"></a>2. 路由器的工作原理</h3><p>所谓路由就是指通过相互连接的网络把信息从源地点移动到目标地点的活动。那么路由器具体是如何进行“翻译”工作的呢?我们平时在学习、翻译英语时，肯定会准备一本英汉字典，通过它来实现英文与中文之间的互现转换。而对于路由器而言，它也有这种用于翻译的字典–路径表。路径表（Routing Table）保存着各种传输路径的相关数据，如子网的标志信息、网上路由器的个数和下一个路由器的名字等内容。路径表可以是由系统管理员固定设置好的，也可以由系统动态修改，可以由路由器自动调整，也可以由主机控制。</p>
+<p>通过路由器可以让不同子网、网段进行互连，因此路由器与集线器、交换机不同，它一般安装在网络的“骨干”部位，而不像集线器、交换机那样工作在基层。比如说一个较大规模的企业局域网，基于管理、安全、性能的考虑，一般都会将整个网络划分为多个VLAN，如此一来，当VLAN与VLAN之间进行通讯时，就必须使用路由器。</p>
+<p>对于该企业网而言，肯定还需要与互联网相连，对于企业而言，一般都是通过租用电信的DDN专线或者利用ADSL、Cable、ISDN等方式将企业网接入互联网，而此时由于网络体系及所用协议的不同，也需要路由器来完成企业网与互联网的互连工作。</p>
+<p>一般来说，在路由过程中，信息至少会经过一个或多个中间节点。通常，人们会把路由和交换进行对比，这主要是因为在普通用户看来两者所实现的功能是完全一样的。其实，路由和交换之间的主要区别就是交换发生在OSI参考模型的第二层（数据链路层），而路由发生在第三层，即网络层。这一区别决定了路由和交换在移动信息的过程中需要使用不同的控制信息，所以两者实现各自功能的方式是不同的。路由器通过路由决定数据的转发。转发策略称为路由选择，这也是路由器名称的由来。</p>
+<hr>
+<h2 id="三剑客的外观比较"><a href="#三剑客的外观比较" class="headerlink" title="三剑客的外观比较"></a>三剑客的外观比较</h2><p>前面我们已经讲解了集线器、交换机、路由器的工作原理，但是对于很多初学者来说，有时也希望能够从外观上去区分它们。当然，集线器、交换机、路由器在外观上肯定有所区别，但这些往往只能作为参考信息，毕竟现在很多集线器、交换机与路由器产品在外观上看非常相似。而这里面最难区分的就是普通桌面型的集线器与交换机，而路由器相对比较容易识别。</p>
+<h2 id="一、集线器与交换机的外观区别"><a href="#一、集线器与交换机的外观区别" class="headerlink" title="一、集线器与交换机的外观区别"></a>一、集线器与交换机的外观区别</h2><h3 id="1-集线器的外观"><a href="#1-集线器的外观" class="headerlink" title="1. 集线器的外观"></a>1. 集线器的外观</h3><p>集线器的结构比较简单，因此集线器一般都比较小巧：接口面板上一般具备8个、16个、24个、32个等数量不等的RJ45接口。</p>
+<p>由于单个集线器的最大接口数一般也就32个，如果要连接50台甚至100台主机的话该怎么办呢?集线器上的“Uplink”级联口就是为了解决这个问题而出现的–通过级联口，可以将多个集线器连接在一起，以便拓展集线器的接口数及连接距离，但最多只能级联4个集线器。</p>
+<p>与接口对应的则是面板上标有数字的一排或两排指示灯，用来指示集线器的工作状态。其中“Power”是电源指示灯，标有数字的是“Link”（连接）与“Action”（活动）指示灯，当某个RJ45接口中有正确的信号接入时，该接口的“Link”灯呈常亮状态，当有信号传输时，则“Action”灯闪烁。现在集线器一般都将“Link”与“Action”指示灯合二为一，用一个指示灯来完成“Link”与“Action”的工作。</p>
+<h3 id="2-交换机的外观"><a href="#2-交换机的外观" class="headerlink" title="2. 交换机的外观"></a>2. 交换机的外观</h3><p>根据应用范围不同交换机存在着多种多样的外观。例如一些用于骨干线路的交换机，往往采用的是“模块式”集成方式，用户可以通过购买、增加模块来增强交换机的功能，这类交换机一般应用在大型企业，其体积也很大。</p>
+<p>而对于那些应用在小型局域网的桌面型交换机，其外观与普通的集线器非常相似，要想在外观上区分它们，除了铭牌上“HUB”与“Switch”标志的区别外，关键是指示灯：如今的交换机大多是10/100Mbps自适应交换机，因此其面板上一般有用来表示该端口是工作在10Mbps还是100Mbps的指示灯。另外，交换机既可以工作在全双工状态下，也可以工作在半双工状态下，因此其面板上一般还有一排“FDX/COL”或“FD/COL”指示灯。</p>
+<p>其中“FDX”或“FD”是“Full Duplex”（全双工）的缩写，当交换机上的某个端口工作在全双工状态时，其对应的“FDX”指示灯会亮，否则该端口工作在半双工状态下；“COL”则是信息碰撞指示灯，当该端口中传输的数据出现碰撞时，则该灯会闪烁，碰撞越厉害，闪烁越厉害。</p>
+<p>对于集线器而言，虽然有些10/100Mbps自适应的集线器也有用来指示是工作在10Mbps还是100Mbps的指示灯，但绝对没有“FDX/COL”指示灯。初学者可以通过这一点来区分集线器与交换机。</p>
+<h2 id="二、路由器的组成与外观"><a href="#二、路由器的组成与外观" class="headerlink" title="二、路由器的组成与外观"></a>二、路由器的组成与外观</h2><h3 id="1-路由器的组成"><a href="#1-路由器的组成" class="headerlink" title="1. 路由器的组成"></a>1. 路由器的组成</h3><p>路由器作为一种高级的网络设备，并不是每个人都可以接触到的，这是因为它的普及性不如集线器、交换机高。</p>
+<p>集线器、交换机在工作时都是通过硬件直接实现信号的传输，而路由器则不同，事实上路由器是一台特殊的计算机，它有CPU、存储介质以及操作系统，只不过这些都与PC上的有点差别而已。总的说来，路由器也可分为硬件及软件两部分。软件部分主要是操作系统，普通PC的操作系统有Windows系列、Linux/Unix等，而路由器的操作系统就是IOS（Internetwork Operating System，互联网际操作系统）。</p>
+<p>路由器的硬件主要有CPU、接口和存储介质等。路由器中的CPU和计算机中的CPU所要实现的功能都是一样的。一般来说，计算机的CPU处理能力比路由器强大，但是在一些高端路由器上也会用到频率高到300MHz的CPU。路由器中的接口是非常重要的，因为它是连接网络最直接的媒介，它的接口主要有以太网口、串口、FDDI、令牌环等。计算机中有内存和硬盘，路由器中也有，只不过它的名字不同而已；路由器中的存储介质主要有ROM（Read-Only Memory，只读储存设备）、Flash（闪存）、NVROM（非易失性随机存储器）、DRAM（动态随机存储器）等几种。</p>
+<p>路由器正是通过其特殊的软件功能来完成路由工作的，由于这种专业的路由器价格昂贵，所以现在人们也会在一些对路由器要求不高的应用环境中利用普通的PC机来实现路由功能，比如说只要在一台PC机上安装Windows2000 Server，然后进行必要的配置，一台“路由器”就打造出来了。</p>
+<h3 id="2-路由器的外观"><a href="#2-路由器的外观" class="headerlink" title="2. 路由器的外观"></a>2. 路由器的外观</h3><p>路由器主要运行在骨干网络上，因此外观也千姿百态，比如一些应用于因特网骨干线路的千兆级别的路由器，往往也是模块化设计，体型也很庞大。</p>
+<p>而那些应用于中小型企业的路由器则相对比较小巧，这类外观看起来与集线器、交换机差不多的路由器，其最大的外观特点就是端口数量相对较少，但类型多样。</p>
+<p>其实也很好理解，路由器主要是用来连接不同类型的网络，它位于网络的最高层，基于成本的考虑，其端口肯定比较少，但同时为了连接多种类型的网络，又必须具备多种类型的网络接口。</p>
+<p><font color="red"> <strong>本文转载至：<a href="http://jianchi1825.blog.51cto.com/404608/84461" target="_blank" rel="noopener">http://jianchi1825.blog.51cto.com/404608/84461</a></strong> </font><br><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/26/Kernel-Linux-中的各种栈：进程栈-线程栈-内核栈-中断栈/" rel="next" title="Linux 中的各种栈：进程栈 线程栈 内核栈 中断栈">
+                <i class="fa fa-chevron-left"></i> Linux 中的各种栈：进程栈 线程栈 内核栈 中断栈
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/09/Network-Neutron快速笔记(框架概念)/" rel="prev" title="Neutron 快速笔记 - 框架概念">
+                Neutron 快速笔记 - 框架概念 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/kk.jpg" alt="KK">
+          <p class="site-author-name" itemprop="name">KK</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#三剑客的工作原理"><span class="nav-number">1.</span> <span class="nav-text">三剑客的工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、集线器"><span class="nav-number">2.</span> <span class="nav-text">一、集线器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是集线器"><span class="nav-number">2.1.</span> <span class="nav-text">1. 什么是集线器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-集线器的工作原理"><span class="nav-number">2.2.</span> <span class="nav-text">2. 集线器的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-集线器的特点"><span class="nav-number">2.3.</span> <span class="nav-text">3. 集线器的特点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-共享带宽"><span class="nav-number">2.3.1.</span> <span class="nav-text">3.1 共享带宽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-半双工"><span class="nav-number">2.3.2.</span> <span class="nav-text">3.2 半双工</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、交换机"><span class="nav-number">3.</span> <span class="nav-text">二、交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是交换机"><span class="nav-number">3.1.</span> <span class="nav-text">1. 什么是交换机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-交换机的工作原理"><span class="nav-number">3.2.</span> <span class="nav-text">2. 交换机的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-交换机的性能特点"><span class="nav-number">3.3.</span> <span class="nav-text">3. 交换机的性能特点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-独享带宽"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.1 独享带宽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-全双工"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.2 全双工</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、集线器与交换机的区别"><span class="nav-number">4.</span> <span class="nav-text">三、集线器与交换机的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、路由器"><span class="nav-number">5.</span> <span class="nav-text">四、路由器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-路由器的作用"><span class="nav-number">5.1.</span> <span class="nav-text">1. 路由器的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-路由器的工作原理"><span class="nav-number">5.2.</span> <span class="nav-text">2. 路由器的工作原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三剑客的外观比较"><span class="nav-number">6.</span> <span class="nav-text">三剑客的外观比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、集线器与交换机的外观区别"><span class="nav-number">7.</span> <span class="nav-text">一、集线器与交换机的外观区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-集线器的外观"><span class="nav-number">7.1.</span> <span class="nav-text">1. 集线器的外观</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-交换机的外观"><span class="nav-number">7.2.</span> <span class="nav-text">2. 交换机的外观</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、路由器的组成与外观"><span class="nav-number">8.</span> <span class="nav-text">二、路由器的组成与外观</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-路由器的组成"><span class="nav-number">8.1.</span> <span class="nav-text">1. 路由器的组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-路由器的外观"><span class="nav-number">8.2.</span> <span class="nav-text">2. 路由器的外观</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KK</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("H4eMW5qsm3YJlNjl5UoFD5v3-gzGzoHsz", "hjp02k1QkpoTpjWjqWQu8uaM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

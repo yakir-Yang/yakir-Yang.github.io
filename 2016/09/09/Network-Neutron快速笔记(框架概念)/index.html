@@ -1,0 +1,852 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="优质博文Neutron 拓扑框架漫谈 Neutron 架构 漫步云中网络，第 2 部分 Neutron 理解 (1): Neutron 所实现的虚拟化网络 How Netruon Virtualizes Network 深入理解Neutron – OpenStack 网络实现 Openstack Admin Guide - Neutron">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neutron 快速笔记 - 框架概念">
+<meta property="og:url" content="http://yakir-yang.github.io/2016/09/09/Network-Neutron快速笔记(框架概念)/index.html">
+<meta property="og:site_name" content="Kuankuan">
+<meta property="og:description" content="优质博文Neutron 拓扑框架漫谈 Neutron 架构 漫步云中网络，第 2 部分 Neutron 理解 (1): Neutron 所实现的虚拟化网络 How Netruon Virtualizes Network 深入理解Neutron – OpenStack 网络实现 Openstack Admin Guide - Neutron">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-05T08:50:33.161Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neutron 快速笔记 - 框架概念">
+<meta name="twitter:description" content="优质博文Neutron 拓扑框架漫谈 Neutron 架构 漫步云中网络，第 2 部分 Neutron 理解 (1): Neutron 所实现的虚拟化网络 How Netruon Virtualizes Network 深入理解Neutron – OpenStack 网络实现 Openstack Admin Guide - Neutron">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yakir-yang.github.io/2016/09/09/Network-Neutron快速笔记(框架概念)/">
+
+
+
+
+
+  <title>Neutron 快速笔记 - 框架概念 | Kuankuan</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kuankuan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">活捉一只程序猿。。。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yakir-yang.github.io/2016/09/09/Network-Neutron快速笔记(框架概念)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="KK">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/kk.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kuankuan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Neutron 快速笔记 - 框架概念</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-09T20:21:25+08:00">
+                2016-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Network/" itemprop="url" rel="index">
+                    <span itemprop="name">Network</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/09/09/Network-Neutron快速笔记(框架概念)/" class="leancloud_visitors" data-flag-title="Neutron 快速笔记 - 框架概念">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="优质博文"><a href="#优质博文" class="headerlink" title="优质博文"></a>优质博文</h2><h3 id="Neutron-拓扑框架"><a href="#Neutron-拓扑框架" class="headerlink" title="Neutron 拓扑框架"></a>Neutron 拓扑框架</h3><p><a href="http://geek.csdn.net/news/detail/51897" target="_blank" rel="noopener">漫谈 Neutron 架构</a></p>
+<p><a href="http://www.ibm.com/developerworks/cn/cloud/library/1311_zhanghua_openstacknetwork2/" target="_blank" rel="noopener">漫步云中网络，第 2 部分</a></p>
+<p><a href="http://www.cnblogs.com/sammyliu/p/4622563.html" target="_blank" rel="noopener">Neutron 理解 (1): Neutron 所实现的虚拟化网络 How Netruon Virtualizes Network</a></p>
+<p><a href="https://yeasy.gitbooks.io/openstack_understand_neutron/content/concept/" target="_blank" rel="noopener">深入理解Neutron – OpenStack 网络实现</a></p>
+<p><a href="http://docs.openstack.org/admin-guide/networking.html" target="_blank" rel="noopener">Openstack Admin Guide - Neutron</a></p>
+<a id="more"></a>
+<hr>
+<h3 id="Neutron-入门概念"><a href="#Neutron-入门概念" class="headerlink" title="Neutron 入门概念"></a>Neutron 入门概念</h3><p><a href="https://www.ustack.com/blog/neutron_intro/" target="_blank" rel="noopener">Neutron网络入门</a></p>
+<p><a href="http://www.ibm.com/developerworks/cn/cloud/library/1402_chenhy_openstacknetwork/" target="_blank" rel="noopener">OpenStack 网络：Neutron 初探</a></p>
+<p><a href="https://www.rdoproject.org/networking/networking-in-too-much-detail/" target="_blank" rel="noopener"><font color="blue"><strong>待看</strong></font> Networking in too much detail</a></p>
+<p><a href="https://colinleefish.gitbooks.io/openstack-end-user-guide-simplified-chinese/content/openstack_command_line_clients/index.html" target="_blank" rel="noopener">Openstack命令行工具 - OpenStack最终用户文档（简体中文版）</a></p>
+<p><a href="http://xmodulo.com/manage-vms-openstack-command-line-tools.html" target="_blank" rel="noopener">如何借助OpenStack命令行工具管理虚拟机</a></p>
+<p><a href="https://my.oschina.net/yuyanghuoming/blog/224355" target="_blank" rel="noopener">如何通过OpenStack命令行管理VMs</a></p>
+<p><a href="http://yanheven.github.io/openstack-neutron-01" target="_blank" rel="noopener">玩转OpenStack网络Neutron(1)–热身</a></p>
+<p><a href="https://yeasy.gitbooks.io/openstack_understand_neutron/content/tool/easyovs.html" target="_blank" rel="noopener">easyOVS - 开源的 OVS 虚拟交换机管理工具</a></p>
+<p><a href="http://www.infoq.com/cn/news/2015/01/ironic-neutron-packet" target="_blank" rel="noopener">从一个OpenStack的失败案例看Ironic和Neutron组件的现状</a></p>
+<p><a href="http://1.chaoxu.sinaapp.com/archives/category/%E4%BA%91%E8%AE%A1%E7%AE%97/openstack/neutron-%E4%BA%91%E8%AE%A1%E7%AE%97" target="_blank" rel="noopener">徐超笔记 - neutron云计算</a></p>
+<hr>
+<h3 id="Linux-网络虚拟化技术"><a href="#Linux-网络虚拟化技术" class="headerlink" title="Linux 网络虚拟化技术"></a>Linux 网络虚拟化技术</h3><p><a href="https://blog.kghost.info/2013/03/01/linux-network-emulator/" target="_blank" rel="noopener">网络虚拟化技术（一）: Linux网络虚拟化</a></p>
+<p><a href="https://blog.kghost.info/2013/03/27/linux-network-tun/" target="_blank" rel="noopener">网络虚拟化技术（二）: TUN/TAP MACVLAN MACVTAP</a></p>
+<p><a href="https://blog.kghost.info/2014/11/19/openvswitch-internal/" target="_blank" rel="noopener">Open vSwitch 工作原理</a></p>
+<p><a href="https://www.ibm.com/developerworks/cn/linux/l-tuntap/" target="_blank" rel="noopener">虚拟网卡 TUN/TAP 驱动程序设计原理</a></p>
+<p><a href="https://www.ibm.com/developerworks/cn/linux/1310_xiawc_networkdevice/#icomments" target="_blank" rel="noopener">Linux 上的基础网络设备详解</a></p>
+<p><a href="http://campaign.vmware.com//imgs/GlobalCampaigns/NSXAutomation/assets/Network%20Virtualization%20For%20Dummies-2.pdf" target="_blank" rel="noopener"><font color="blue"><strong>待看</strong></font> Network Virtualization For Dummies</a></p>
+<hr>
+<h3 id="网络基本概念"><a href="#网络基本概念" class="headerlink" title="网络基本概念"></a>网络基本概念</h3><p><a href="http://kyang.cc/2016/09/08/%E9%9B%86%E7%BA%BF%E5%99%A8%E3%80%81%E4%BA%A4%E6%8D%A2%E6%9C%BA%E3%80%81%E8%B7%AF%E7%94%B1%E5%99%A8%E6%A6%82%E5%BF%B5%E8%AE%A4%E8%AF%86/" target="_blank" rel="noopener">集线器 、交换机、路由器 概念认识</a></p>
+<p><a href="http://wushank.blog.51cto.com/3489095/1132127" target="_blank" rel="noopener">VLAN 技术详解（一）</a></p>
+<p><a href="http://www.h3c.com.cn/MiniSite/Technology_Circle/Net_Reptile/The_One/Home/Catalog/200911/655250_97665_0.htm" target="_blank" rel="noopener">VLAN 技术浅谈</a></p>
+<p><a href="http://blog.csdn.net/jesseyoung/article/details/40047749" target="_blank" rel="noopener">VLAN 交换机三种端口模式 Access，Hybrid，Trunk</a></p>
+<p><a href="http://blog.csdn.net/hzhsan/article/details/45038265" target="_blank" rel="noopener">网络地址转换 NAT 原理（易于理解）</a></p>
+<p><a href="http://bingotree.cn/?p=654" target="_blank" rel="noopener">GRE 和 VXLAN</a></p>
+<p><a href="http://www.cnblogs.com/xingyun/p/4620727.html" target="_blank" rel="noopener">GRE 与 Vxlan 网络详解</a></p>
+<p><a href="http://www.borgcube.com/blog/2016/03/12/vxlan-explained-part-1/" target="_blank" rel="noopener">VXLAN Explained – Part 1</a></p>
+<p><a href="http://h2ofly.blog.51cto.com/6834926/1544860" target="_blank" rel="noopener">两个局域网（办公网-IDC）安全互通方案2：by GRE</a></p>
+<p><font color="red"> <strong>转载请注明出处：</strong> <a href="http://kyang.cc/" target="_blank" rel="noopener">http://kyang.cc/</a> </font><br><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/08/Network-集线器、交换机、路由器概念认识/" rel="next" title="集线器、交换机、路由器 概念认识">
+                <i class="fa fa-chevron-left"></i> 集线器、交换机、路由器 概念认识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/15/Network-Neutron快速笔记(源码分析)/" rel="prev" title="Neutron 快速笔记 - 源码分析">
+                Neutron 快速笔记 - 源码分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/kk.jpg" alt="KK">
+          <p class="site-author-name" itemprop="name">KK</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#优质博文"><span class="nav-number">1.</span> <span class="nav-text">优质博文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neutron-拓扑框架"><span class="nav-number">1.1.</span> <span class="nav-text">Neutron 拓扑框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neutron-入门概念"><span class="nav-number">1.2.</span> <span class="nav-text">Neutron 入门概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-网络虚拟化技术"><span class="nav-number">1.3.</span> <span class="nav-text">Linux 网络虚拟化技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络基本概念"><span class="nav-number">1.4.</span> <span class="nav-text">网络基本概念</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KK</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("H4eMW5qsm3YJlNjl5UoFD5v3-gzGzoHsz", "hjp02k1QkpoTpjWjqWQu8uaM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
